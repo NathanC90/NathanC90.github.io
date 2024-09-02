@@ -168,6 +168,7 @@ h2 {
     display: flex;
     flex-direction: column;
     z-index: 2;
+    /* Photo by <a href="https://unsplash.com/@theshubhamdhage?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Shubham Dhage</a> on <a href="https://unsplash.com/photos/a-black-background-with-an-orange-and-yellow-wave-ucv8CgjVV0Y?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a> */
     background-image: url('./images/contact.jpeg');
     background-size: cover;
     background-repeat: no-repeat;
