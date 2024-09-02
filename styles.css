@@ -138,3 +138,12 @@ h2 {
     text-decoration: underline;
     font-weight: bold;
 }
+
+#skills {
+    padding: 50px;
+}
+
+#skills i {
+    font-size: 2em;
+    margin: 10px 20px;
+}
