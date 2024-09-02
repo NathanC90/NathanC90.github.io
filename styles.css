@@ -143,7 +143,28 @@ h2 {
     padding: 50px;
 }
 
+#skills .main-theme {
+    margin-top: 20px;
+}
+
 #skills i {
     font-size: 2em;
     margin: 10px 20px;
+}
+
+#work-with-me {
+    padding: 50px;
+    height: 70dvh;
+    display: flex;
+    flex-direction: column;
+    z-index: 2;
+    background-image: url('./images/contact.jpeg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    line-height: 3em;
+    justify-content: center;
+}
+
+#work-with-me p {
+    font-size: 1.5em;
 }
