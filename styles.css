@@ -1,3 +1,5 @@
+/* Global Styles */
+
 * {
     margin: 0;
     padding: 0;
@@ -10,6 +12,16 @@
 body {
     background-color: black;
 }
+
+h1 {
+    font-size: 2.5em;
+}
+
+h2 {
+    font-size: 2em;
+}
+
+/* Navbar styles */
 
 .navbar {
     height: 10dvh;
@@ -33,6 +45,8 @@ body {
 .navbar ul li a:hover {
     text-decoration: underline;
 }
+
+/* Main Styles */
 
 #banner {
     height: 100dvh;
@@ -82,11 +96,45 @@ body {
     justify-content: space-around;
 }
 
-
-#about h2 {
-    font-size: 2em;
-}
-
 #about p {
     font-size: 1.5em;
+}
+
+
+#projects {
+    display: grid;
+    padding: 50px;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: 50px repeat(2, 1fr)
+}
+
+#project-title {
+    grid-column: 1 / 4;
+    margin: 20px 0;
+}
+
+.project-cards {
+    display: flex;
+    flex-direction: column;
+    height: 300px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid white;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+.project-image {
+    width: 300px;
+}
+
+.project-link {
+    text-decoration: none;
+    color: var(--theme-color);
+}
+
+.project-link:hover {
+    text-decoration: underline;
+    font-weight: bold;
 }
