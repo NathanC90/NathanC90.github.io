@@ -49,7 +49,7 @@ body {
     font-size: 1.5em;
 }
 
-.name {
+.main-theme {
     color: var(--theme-color);
 }
 
@@ -65,4 +65,21 @@ body {
     cursor: pointer;
     border-color: #b0f4dd;
     font-weight: bold;
+}
+
+#about {
+    height: 50dvh;
+    padding: 50px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+
+#about h2 {
+    font-size: 2em;
+}
+
+#about p {
+    font-size: 1.5em;
 }
