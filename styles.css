@@ -44,10 +44,11 @@ h2 {
 
 .navbar ul li a:hover {
     text-decoration: underline;
+    color: var(--theme-color);
 }
 
 /* Main Styles */
-
+/* banner */
 #banner {
     height: 100dvh;
     display: flex;
@@ -80,13 +81,17 @@ h2 {
     background-color: black;
     border: 2px solid var(--theme-color);
     margin-top: 30px;
+    text-decoration: none;
 }
 
 .contact:hover {
     cursor: pointer;
     border-color: #b0f4dd;
     font-weight: bold;
+    text-decoration: underline;
 }
+
+/* About section */
 
 #about {
     height: 60dvh;
@@ -100,6 +105,7 @@ h2 {
     font-size: 1.5em;
 }
 
+/* Project section */
 
 #projects {
     display: grid;
@@ -139,6 +145,8 @@ h2 {
     font-weight: bold;
 }
 
+/* Skill section */
+
 #skills {
     padding: 50px;
 }
@@ -151,6 +159,8 @@ h2 {
     font-size: 2em;
     margin: 10px 20px;
 }
+
+/* Contact info */
 
 #work-with-me {
     padding: 50px;
@@ -167,4 +177,17 @@ h2 {
 
 #work-with-me p {
     font-size: 1.5em;
+}
+
+/* footer section */
+
+footer {
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+footer i {
+    color: red;
 }
