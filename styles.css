@@ -2,82 +2,67 @@
     margin: 0;
     padding: 0;
     box-sizing: content-box;
-    font-family: Arial, Helvetica, sans-serif;
+    font-family: Helvetica, Arial, sans-serif;
+    color: white;
+    --theme-color: #98E8CD;
 }
 
 body {
-    width: 80%;
-    margin: 0 auto;
+    background-color: black;
 }
 
-header {
-    padding-top: 20px;
-}
-
-.colors,
-.fonts,
-.text-styles {
-    border: 3px solid grey;
-    margin: 10px auto;
+.navbar ul {
+    display: flex;
+    justify-content: flex-end;
+    list-style: none;
+    gap: 20px;
     padding: 20px;
 }
 
-.cool-blue {
-    color: white;
-    background-color: #2d5dcc;
+.navbar ul li a {
+    text-decoration: none;
 }
 
-.pink {
-    color: black;
-    background-color: #d957d9;
-}
-
-.mint-green {
-    color: black;
-    background-color: #4fe0b0;
-}
-
-.beige {
-    color: black;
-    background-color: beige;
-}
-
-.colors > div {
-    padding: 30px 60px;
-    display: inline-block;
-    text-align: center;
-    margin: 10px;
-}
-
-.fonts > h3 {
+.navbar ul li a:hover {
     text-decoration: underline;
 }
 
-.source-code-pro,
-.source-code-pro + p {
-    font-family: 'Source Code Pro';
-    font-weight: normal;
-    margin: 20px;
+#banner {
+    height: 90dvh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding-left: 50px;
+    /*Photo by <a href="https://unsplash.com/@wasdrew?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Andras Vas</a> on <a href="https://unsplash.com/photos/macbook-pro-turned-on-Bd7gNnWJBkU?utm_content=creditCopyText&utm_medium=referral&utm_source=unsplash">Unsplash</a> */
+    background-image: url(./images/banner-background-image.jpeg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: right;
 }
 
-.nunito-sans,
-.nunito-sans + p {
-    font-family: 'Nunito Sans';
-    font-weight: normal;
-    margin: 20px;
+#banner h1 {
+    font-size: 2.5em;
 }
 
-.poppins,
-.poppins + p {
-    font-family: 'Poppins';
-    font-weight: normal;
-    margin: 20px;
+#banner p {
+    font-size: 1.5em;
 }
 
-.text-styles ul {
-    padding: 20px 0 20px 40px;
+.name {
+    color: var(--theme-color);
 }
 
-.text-styles h1 {
-    padding-top: 10px;
+.contact {
+    padding: 10px 20px;
+    border-radius: 50px;
+    background-color: black;
+    border: 2px solid var(--theme-color);
+    margin-top: 30px;
+}
+
+.contact:hover {
+    cursor: pointer;
+    border-color: #b0f4dd;
+    font-weight: bold;
 }
