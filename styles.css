@@ -11,6 +11,13 @@ body {
     background-color: black;
 }
 
+.navbar {
+    height: 10dvh;
+    background-color: black;
+    position: fixed;
+    width: 100%;
+}
+
 .navbar ul {
     display: flex;
     justify-content: flex-end;
@@ -28,7 +35,7 @@ body {
 }
 
 #banner {
-    height: 90dvh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -68,7 +75,7 @@ body {
 }
 
 #about {
-    height: 50dvh;
+    height: 60dvh;
     padding: 50px;
     display: flex;
     flex-direction: column;
