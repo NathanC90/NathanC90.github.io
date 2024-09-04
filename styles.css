@@ -209,6 +209,21 @@ footer i {
         justify-content: center;
     }
 
+
+.project-cards {
+    height: 250px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid white;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+    .project-image {
+        width: 240px;
+    }
+
     #project-title {
         grid-column: 1 / 2;
     }
