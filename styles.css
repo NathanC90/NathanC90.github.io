@@ -132,7 +132,7 @@ h2 {
 }
 
 .project-image {
-    width: 300px;
+    width: 80%;
 }
 
 .project-link {
@@ -219,10 +219,6 @@ footer i {
     border-radius: 10px;
     margin: 20px;
 }
-
-    .project-image {
-        width: 240px;
-    }
 
     #project-title {
         grid-column: 1 / 2;
