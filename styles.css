@@ -612,6 +612,21 @@ a {
 @media (max-width: 768px) {
     .nav-links {
         display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: rgba(7, 11, 20, 0.98);
+        backdrop-filter: blur(20px);
+        padding: 2rem 0;
+        border-bottom: 1px solid var(--border-glass);
+        flex-direction: column;
+        gap: 1.5rem;
+        text-align: center;
+    }
+
+    .nav-links.active {
+        display: flex;
     }
 
     .mobile-menu-btn {
