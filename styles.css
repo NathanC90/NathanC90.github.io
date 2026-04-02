@@ -11,6 +11,23 @@
     --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
 }
 
+/* Language Toggle Core Rules */
+[lang="zh"] {
+    display: none;
+}
+body.lang-zh [lang="en"] {
+    display: none !important;
+}
+body.lang-zh [lang="zh"] {
+    display: revert;
+}
+
+.lang-btn {
+    padding: 0.4rem 1rem;
+    font-size: 0.85rem;
+    cursor: pointer;
+    margin-left: 1rem;
+}
 * {
     margin: 0;
     padding: 0;
