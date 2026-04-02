@@ -12,14 +12,14 @@
 }
 
 /* Language Toggle Core Rules */
-[lang="zh"] {
+span[lang="zh"] {
     display: none;
 }
-body.lang-zh [lang="en"] {
+body.lang-zh span[lang="en"] {
     display: none !important;
 }
-body.lang-zh [lang="zh"] {
-    display: revert;
+body.lang-zh span[lang="zh"] {
+    display: inline;
 }
 
 .lang-btn {
