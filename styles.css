@@ -1,4 +1,4 @@
-/* Globals & CSS Variables */
+/* Globals & CSS Variables (Default Dark) */
 :root {
     --bg-dark: #070b14;
     --bg-card: rgba(255, 255, 255, 0.03);
@@ -9,6 +9,18 @@
     --accent-gradient: linear-gradient(135deg, #00f2fe, #4facfe, #8a2387);
     --font-sans: 'Inter', sans-serif;
     --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    --shadow-premium: 0 10px 30px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Light Mode Variables Override */
+:root.light {
+    --bg-dark: #f8fafc;
+    --bg-card: rgba(0, 0, 0, 0.02);
+    --border-glass: rgba(0, 0, 0, 0.08);
+    --text-main: #0f172a;
+    --text-muted: #64748b;
+    --accent-gradient: linear-gradient(135deg, #0284c7, #3b82f6, #6366f1);
+    --shadow-premium: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
 }
 
 /* Language Toggle Core Rules */
@@ -22,11 +34,48 @@ body.lang-zh span[lang="zh"] {
     display: inline;
 }
 
-.lang-btn {
+.lang-btn, .theme-btn {
     padding: 0.4rem 1rem;
     font-size: 0.85rem;
     cursor: pointer;
-    margin-left: 1rem;
+    margin-left: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.theme-btn i {
+    font-size: 1rem;
+}
+
+/* Theme Toggle Transitions */
+body {
+    transition: background-color 0.4s ease, color 0.4s ease;
+}
+
+.glass-panel, .glass-nav, .glass-footer {
+    transition: background 0.4s ease, border-color 0.4s ease, backdrop-filter 0.4s ease;
+}
+
+/* Light Mode Specific Overrides */
+:root.light .glass-nav.scrolled {
+    background: rgba(248, 250, 252, 0.85);
+}
+
+:root.light .ambient-glow {
+    opacity: 0.15;
+}
+
+:root.light .project-overlay {
+    background: rgba(248, 250, 252, 0.85);
+}
+
+:root.light .btn-secondary {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+:root.light .project-card:hover {
+    box-shadow: var(--shadow-premium);
 }
 * {
     margin: 0;

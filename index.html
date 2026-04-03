@@ -36,6 +36,11 @@
     <meta name="twitter:description" content="Freelance frontend developer specializing in high-performance React & JavaScript web apps. Available for new projects.">
     <meta name="twitter:image" content="https://nathanc90.github.io/images/og-preview.png">
 
+    <!-- Mobile & PWA optimization -->
+    <meta name="theme-color" content="#070b14">
+    <link rel="manifest" href="./icon/manifest.json">
+    <link rel="apple-touch-icon" href="./icon/apple-icon.png">
+
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
@@ -85,6 +90,7 @@
                 <li><a href="#work"><span lang="en">Work</span><span lang="zh">作品集</span></a></li>
                 <li><a href="#stack"><span lang="en">Stack</span><span lang="zh">技術棧</span></a></li>
                 <li><a href="#contact" class="btn-primary-outline"><span lang="en">Hire Me</span><span lang="zh">聘請我</span></a></li>
+                <li><button id="theme-btn" class="btn-primary-outline theme-btn" aria-label="Toggle Theme"><i class="fa-solid fa-moon"></i></button></li>
                 <li><button id="lang-btn" class="btn-primary-outline lang-btn"><i class="fa-solid fa-globe"></i> 中/EN</button></li>
             </ul>
             <div class="mobile-menu-btn">
@@ -157,7 +163,7 @@
                 <div class="project-card glass-panel">
                     <div class="project-img-wrapper">
                         <img loading="lazy" class="project-image" src="./images/top-admin-dashboard.jpg"
-                            alt="Admin Dashboard">
+                            alt="Screenshot of a modern administrative dashboard with data visualizations and sidebar navigation">
                         <div class="project-overlay">
                             <a href="https://nathanc90.github.io/admin-dashboard/" target="_blank" class="btn-icon"
                                 aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
@@ -176,7 +182,7 @@
                 <div class="project-card glass-panel">
                     <div class="project-img-wrapper">
                         <img loading="lazy" class="project-image" src="./images/coca-architect.jpg"
-                            alt="Architect Company">
+                            alt="Minimalist architectural firm landing page featuring clean typography and geometric layouts">
                         <div class="project-overlay">
                             <a href="https://nathanc90.github.io/flexbox-arch-company/" target="_blank" class="btn-icon"
                                 aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
@@ -195,7 +201,7 @@
                 <div class="project-card glass-panel">
                     <div class="project-img-wrapper">
                         <img loading="lazy" class="project-image" src="./images/top-calculator.jpg"
-                            alt="Calculator App">
+                            alt="Interactive web calculator with a glassmorphism design and mathematical logic">
                         <div class="project-overlay">
                             <a href="https://nathanc90.github.io/top-calculator/" target="_blank" class="btn-icon"
                                 aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
@@ -214,7 +220,7 @@
                 <div class="project-card glass-panel">
                     <div class="project-img-wrapper">
                         <img loading="lazy" class="project-image" src="./images/top-etch-a-sketch.jpg"
-                            alt="Etch-a-Sketch">
+                            alt="Browser-based sketching tool showing a grid-based drawing area">
                         <div class="project-overlay">
                             <a href="https://nathanc90.github.io/etch-a-sketch/" target="_blank" class="btn-icon"
                                 aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
@@ -233,7 +239,7 @@
                 <div class="project-card glass-panel">
                     <div class="project-img-wrapper">
                         <img loading="lazy" class="project-image" src="./images/top-sign-up-form.jpg"
-                            alt="Sign up Form">
+                            alt="User registration form with custom validation and focused input states">
                         <div class="project-overlay">
                             <a href="https://nathanc90.github.io/sign-up-form/" target="_blank" class="btn-icon"
                                 aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
@@ -251,7 +257,7 @@
                 <!-- Rock Paper Scissors -->
                 <div class="project-card glass-panel">
                     <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-rps.jpg" alt="Rock Paper Scissors">
+                        <img loading="lazy" class="project-image" src="./images/top-rps.jpg" alt="Interactive Rock Paper Scissors game interface with score tracking">
                         <div class="project-overlay">
                             <a href="https://nathanc90.github.io/rock-paper-scissors/" target="_blank" class="btn-icon"
                                 aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
@@ -310,7 +316,31 @@
 
     <!-- Interactive Scripts -->
     <script>
-        // Language Toggle
+        // Theme Toggle Logic
+        const themeBtn = document.getElementById('theme-btn');
+        const html = document.documentElement;
+        
+        // Initial Theme Load: default dark, check localStorage
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            html.classList.add('light');
+            themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f8fafc');
+        }
+
+        themeBtn.addEventListener('click', () => {
+            const isLight = html.classList.toggle('light');
+            const theme = isLight ? 'light' : 'dark';
+            localStorage.setItem('theme', theme);
+            
+            // Icon transition
+            themeBtn.innerHTML = isLight ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+            
+            // Meta theme-color update for status bar on mobile
+            document.querySelector('meta[name="theme-color"]').setAttribute('content', isLight ? '#f8fafc' : '#070b14');
+        });
+
+        // Language Toggle Logic
         const langBtn = document.getElementById('lang-btn');
         const titleEn = "Nathan Chao | Passionate Frontend Builder";
         const titleZh = "Nathan Chao | 前端工程師";
