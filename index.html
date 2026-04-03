@@ -8,11 +8,12 @@
     <meta name="description"
         content="Portfolio of Nathan Chao, a frontend developer creating high-performance, premium web experiences.">
 
-    <!-- Modern Fonts -->
+    <!-- Modern Fonts: non-render-blocking async load -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
-        rel="stylesheet">
+    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
+    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"></noscript>
 
     <!-- Icons -->
     <script defer src="https://kit.fontawesome.com/8ee8623724.js" crossorigin="anonymous"></script>
@@ -105,7 +106,7 @@
                 <!-- Admin Dashboard -->
                 <div class="project-card glass-panel">
                     <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-admin-dashboard.png"
+                        <img loading="lazy" class="project-image" src="./images/top-admin-dashboard.jpg"
                             alt="Admin Dashboard">
                         <div class="project-overlay">
                             <a href="https://nathanc90.github.io/admin-dashboard/" target="_blank" class="btn-icon"
@@ -124,7 +125,7 @@
                 <!-- Architect Company -->
                 <div class="project-card glass-panel">
                     <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/coca-architect.png"
+                        <img loading="lazy" class="project-image" src="./images/coca-architect.jpg"
                             alt="Architect Company">
                         <div class="project-overlay">
                             <a href="https://nathanc90.github.io/flexbox-arch-company/" target="_blank" class="btn-icon"
@@ -143,7 +144,7 @@
                 <!-- Calculator -->
                 <div class="project-card glass-panel">
                     <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-calculator.png"
+                        <img loading="lazy" class="project-image" src="./images/top-calculator.jpg"
                             alt="Calculator App">
                         <div class="project-overlay">
                             <a href="https://nathanc90.github.io/top-calculator/" target="_blank" class="btn-icon"
@@ -162,7 +163,7 @@
                 <!-- Etch-a-Sketch -->
                 <div class="project-card glass-panel">
                     <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-etch-a-sketch.png"
+                        <img loading="lazy" class="project-image" src="./images/top-etch-a-sketch.jpg"
                             alt="Etch-a-Sketch">
                         <div class="project-overlay">
                             <a href="https://nathanc90.github.io/etch-a-sketch/" target="_blank" class="btn-icon"
@@ -181,7 +182,7 @@
                 <!-- Sign up Form -->
                 <div class="project-card glass-panel">
                     <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-sign-up-form.png"
+                        <img loading="lazy" class="project-image" src="./images/top-sign-up-form.jpg"
                             alt="Sign up Form">
                         <div class="project-overlay">
                             <a href="https://nathanc90.github.io/sign-up-form/" target="_blank" class="btn-icon"
@@ -200,7 +201,7 @@
                 <!-- Rock Paper Scissors -->
                 <div class="project-card glass-panel">
                     <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-rps.png" alt="Rock Paper Scissors">
+                        <img loading="lazy" class="project-image" src="./images/top-rps.jpg" alt="Rock Paper Scissors">
                         <div class="project-overlay">
                             <a href="https://nathanc90.github.io/rock-paper-scissors/" target="_blank" class="btn-icon"
                                 aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>

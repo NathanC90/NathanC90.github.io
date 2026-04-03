@@ -682,3 +682,56 @@ a {
         text-align: center;
     }
 }
+
+/* ===================================================
+   Mobile Performance: disable GPU-intensive effects
+   on devices where they cause sluggishness (Safari/iOS)
+=================================================== */
+@media (max-width: 768px) {
+    /* Kill backdrop-filter blur — most expensive effect on mobile WebKit */
+    .glass-panel,
+    .glass-nav.scrolled,
+    .glass-footer,
+    .nav-links {
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+    }
+
+    /* Replace blur with a solid dark fallback so glass still looks intentional */
+    .glass-panel {
+        background: rgba(10, 15, 28, 0.92);
+    }
+
+    .glass-nav.scrolled {
+        background: rgba(7, 11, 20, 0.97);
+    }
+
+    .nav-links {
+        background: rgba(7, 11, 20, 0.99);
+    }
+
+    /* Stop the ambient glow drift animation — continuous animation prevents idle */
+    .ambient-glow {
+        animation: none;
+        display: none;
+    }
+
+    /* Reduce box-shadow complexity for paint performance */
+    .btn-primary {
+        box-shadow: none;
+    }
+
+    .btn-primary:hover {
+        box-shadow: none;
+        transform: none;
+    }
+
+    /* Disable hover transforms on touch — they cause layout thrashing */
+    .badge:hover,
+    .btn-secondary:hover,
+    .expertise-card:hover,
+    .project-card:hover,
+    .tech-icon:hover {
+        transform: none;
+    }
+}
