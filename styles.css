@@ -286,6 +286,10 @@ a {
     color: #4facfe;
 }
 
+:root.light .accent {
+    color: #0284c7; /* Darker blue for better visibility on light background */
+}
+
 .mobile-menu-btn {
     display: none;
     font-size: 1.5rem;
@@ -695,6 +699,20 @@ a {
 
     .nav-links.active {
         display: flex;
+    }
+
+    .nav-links li {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .nav-links .btn-primary-outline, 
+    .nav-links .lang-btn, 
+    .nav-links .theme-btn {
+        width: 80%;
+        justify-content: center;
+        margin: 0;
     }
 
     .mobile-menu-btn {

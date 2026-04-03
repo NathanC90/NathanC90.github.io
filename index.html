@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="google-site-verification" content="nabF9rzs2Yg_PxZNrwcRF5Ve_0xP_8wc1gzUO5ubxVs" />
     <title>Nathan Chao | Frontend Developer & UI/UX Engineer</title>
     <meta name="description"
@@ -345,9 +345,17 @@
         const titleEn = "Nathan Chao | Passionate Frontend Builder";
         const titleZh = "Nathan Chao | 前端工程師";
 
+        // Initial Language Load
+        const savedLang = localStorage.getItem('lang') || 'en';
+        if (savedLang === 'zh') {
+            document.body.classList.add('lang-zh');
+            document.title = titleZh;
+        }
+
         langBtn.addEventListener('click', () => {
             const isZh = document.body.classList.toggle('lang-zh');
             document.title = isZh ? titleZh : titleEn;
+            localStorage.setItem('lang', isZh ? 'zh' : 'en');
         });
 
         // Smooth scroll for anchor links
