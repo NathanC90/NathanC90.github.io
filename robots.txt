@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://nathanc90.github.io/sitemap.xml
