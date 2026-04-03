@@ -748,17 +748,17 @@ a {
         -webkit-backdrop-filter: none !important;
     }
 
-    /* Replace blur with a solid dark fallback so glass still looks intentional */
+    /* Replace blur with a solid fallback so glass still looks intentional without performance cost */
     .glass-panel {
-        background: rgba(10, 15, 28, 0.92);
+        background: var(--bg-card);
     }
 
     .glass-nav.scrolled {
-        background: rgba(7, 11, 20, 0.97);
+        background: var(--bg-dark);
     }
 
     .nav-links {
-        background: rgba(7, 11, 20, 0.99);
+        background: var(--bg-dark);
     }
 
     /* Stop the ambient glow drift animation — continuous animation prevents idle */
