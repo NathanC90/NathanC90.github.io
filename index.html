@@ -303,7 +303,10 @@
                             <label for="name">
                                 <span lang="en">Full Name</span><span lang="zh">姓名</span>
                             </label>
-                            <input type="text" id="name" name="name" required placeholder="Nathan Chao" 
+                            <input type="text" id="name" name="name" required 
+                                   placeholder="Nathan Chao" 
+                                   data-en="Nathan Chao" 
+                                   data-zh="您的姓名"
                                    aria-label="Full Name">
                         </div>
                         <div class="form-group">
@@ -319,7 +322,10 @@
                         <label for="subject">
                             <span lang="en">Subject (Optional)</span><span lang="zh">主旨 (選填)</span>
                         </label>
-                        <input type="text" id="subject" name="subject" placeholder="Project Inquiry"
+                        <input type="text" id="subject" name="subject" 
+                               placeholder="Project Inquiry"
+                               data-en="Project Inquiry"
+                               data-zh="合作洽談"
                                aria-label="Subject">
                     </div>
 
@@ -329,6 +335,8 @@
                         </label>
                         <textarea id="message" name="message" required rows="5" 
                                   placeholder="Hi Nathan, let's talk about..."
+                                  data-en="Hi Nathan, let's talk about..."
+                                  data-zh="嘿 Nathan，我想洽談..."
                                   aria-label="Your Message"></textarea>
                     </div>
 
@@ -388,15 +396,24 @@
 
         // Initial Language Load
         const savedLang = localStorage.getItem('lang') || 'en';
+        
+        function updatePlaceholders(isZh) {
+            document.querySelectorAll('[data-en][data-zh]').forEach(el => {
+                el.placeholder = isZh ? el.getAttribute('data-zh') : el.getAttribute('data-en');
+            });
+        }
+
         if (savedLang === 'zh') {
             document.body.classList.add('lang-zh');
             document.title = titleZh;
+            updatePlaceholders(true);
         }
 
         langBtn.addEventListener('click', () => {
             const isZh = document.body.classList.toggle('lang-zh');
             document.title = isZh ? titleZh : titleEn;
             localStorage.setItem('lang', isZh ? 'zh' : 'en');
+            updatePlaceholders(isZh);
         });
 
         // Smooth scroll for anchor links
