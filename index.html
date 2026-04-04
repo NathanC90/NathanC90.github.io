@@ -297,12 +297,53 @@
             <div class="cta-banner glass-panel">
                 <h2 class="section-title"><span lang="en">Let's build something incredible.</span><span lang="zh">攜手合作，打造出色作品。</span></h2>
                 <p><span lang="en">I'm currently accepting new freelance projects. If you're looking for a reliable partner to elevate your digital presence, I'd love to chat.</span><span lang="zh">我目前開放自由接案。如果您正在尋找可靠的協作夥伴，一起提升您的數位化形象，歡迎隨時與我聯絡洽談。</span></p>
-                <div class="contact-methods">
-                    <a href="mailto:ymnchao@gmail.com" class="btn btn-primary"><i class="fa-solid fa-envelope"></i>
-                        ymnchao@gmail.com</a>
-                    <a href="https://github.com/NathanC90" target="_blank" class="btn btn-secondary-outline mt-1"><i
-                            class="fa-brands fa-github"></i> <span lang="en">GitHub Profile</span><span lang="zh">GitHub 個人頁面</span></a>
-                </div>
+                <form id="contact-form" action="https://formspree.io/f/xqegywjg" method="POST" class="contact-form">
+                    <div class="form-group-row">
+                        <div class="form-group">
+                            <label for="name">
+                                <span lang="en">Full Name</span><span lang="zh">姓名</span>
+                            </label>
+                            <input type="text" id="name" name="name" required placeholder="Nathan Chao" 
+                                   aria-label="Full Name">
+                        </div>
+                        <div class="form-group">
+                            <label for="email">
+                                <span lang="en">Email Address</span><span lang="zh">電子郵件</span>
+                            </label>
+                            <input type="email" id="email" name="email" required placeholder="contact@example.com"
+                                   aria-label="Email Address">
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="subject">
+                            <span lang="en">Subject (Optional)</span><span lang="zh">主旨 (選填)</span>
+                        </label>
+                        <input type="text" id="subject" name="subject" placeholder="Project Inquiry"
+                               aria-label="Subject">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">
+                            <span lang="en">Your Message</span><span lang="zh">您的留言</span>
+                        </label>
+                        <textarea id="message" name="message" required rows="5" 
+                                  placeholder="Hi Nathan, let's talk about..."
+                                  aria-label="Your Message"></textarea>
+                    </div>
+
+                    <!-- Honeypot field for spam prevention -->
+                    <input type="text" name="_gotcha" style="display:none">
+
+                    <button type="submit" id="contact-submit" class="btn btn-primary w-100">
+                        <span class="btn-text">
+                            <span lang="en">Send Message</span><span lang="zh">傳送訊息</span>
+                        </span>
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+
+                    <div id="contact-status" class="contact-status"></div>
+                </form>
             </div>
         </section>
     </main>
@@ -371,6 +412,72 @@
         // Mobile Menu Toggle
         const mobileBtn = document.querySelector('.mobile-menu-btn');
         const navLinks = document.querySelector('.nav-links');
+        // Formspree AJAX Logic
+        const form = document.getElementById("contact-form");
+        const status = document.getElementById("contact-status");
+        const submitBtn = document.getElementById("contact-submit");
+        const btnText = submitBtn.querySelector(".btn-text");
+
+        const statusMsgs = {
+            en: {
+                success: "Thanks! Your message has been sent.",
+                error: "Oops! There was a problem submitting your form.",
+                sending: "Sending..."
+            },
+            zh: {
+                success: "感謝！您的留言已送出。",
+                error: "糟糕！提交表單時發生問題。",
+                sending: "傳送中..."
+            }
+        };
+
+        async function handleSubmit(event) {
+            event.preventDefault();
+            const currentLang = document.body.classList.contains('lang-zh') ? 'zh' : 'en';
+            
+            status.style.display = "none";
+            status.className = "contact-status";
+            btnText.querySelector(`span[lang="${currentLang}"]`).textContent = statusMsgs[currentLang].sending;
+            submitBtn.disabled = true;
+
+            const data = new FormData(event.target);
+            
+            try {
+                const response = await fetch(event.target.action, {
+                    method: form.method,
+                    body: data,
+                    headers: {
+                        'Accept': 'application/json'
+                    }
+                });
+
+                if (response.ok) {
+                    status.textContent = statusMsgs[currentLang].success;
+                    status.classList.add("success");
+                    form.reset();
+                } else {
+                    const errorData = await response.json();
+                    if (Object.hasOwn(errorData, 'errors')) {
+                        status.textContent = errorData["errors"].map(error => error["message"]).join(", ");
+                    } else {
+                        status.textContent = statusMsgs[currentLang].error;
+                    }
+                    status.classList.add("error");
+                }
+            } catch (error) {
+                status.textContent = statusMsgs[currentLang].error;
+                status.classList.add("error");
+            } finally {
+                submitBtn.disabled = false;
+                btnText.querySelector(`span[lang="en"]`).textContent = "Send Message";
+                btnText.querySelector(`span[lang="zh"]`).textContent = "傳送訊息";
+                status.style.display = "block";
+            }
+        }
+        
+        form.addEventListener("submit", handleSubmit);
+
+        // Mobile Menu Toggle
         mobileBtn.addEventListener('click', () => {
             navLinks.classList.toggle('active');
         });
@@ -388,7 +495,7 @@
             if (window.scrollY > 50) {
                 navbar.classList.add('scrolled');
             } else {
-                navbar.classList.add('scrolled'); // always scrolled aesthetic or toggle
+                navbar.classList.add('scrolled');
                 if (window.scrollY <= 50) navbar.classList.remove('scrolled');
             }
         });
@@ -412,5 +519,4 @@
         });
     </script>
 </body>
-
 </html>
