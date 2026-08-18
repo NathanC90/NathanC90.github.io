@@ -338,11 +338,17 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
 }
 .case-summary::-webkit-details-marker { display: none; }
 .case-summary:hover { background: var(--paper-2); }
-.case-summary:hover .case-title { color: var(--accent); }
+/* Direction reads as "active" far better than a brightness shift: the row
+   steps toward the reader, the number lights up, and a rule wipes in under
+   the title. */
+.case-heads { transition: transform 0.35s var(--ease); }
+.case-summary:hover .case-heads { transform: translateX(8px); }
+.case-summary:hover .case-num { color: var(--accent); }
 
 .case-num {
     font-family: var(--font-mono); font-size: 0.75rem;
     color: var(--ink-3); padding-top: 0.6rem; flex: none;
+    transition: color 0.25s var(--ease);
 }
 
 .case-heads { flex: 1; min-width: 0; }
@@ -350,8 +356,19 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
 .case-title {
     font-size: clamp(1.4rem, 2.6vw, 2.1rem);
     margin-bottom: 0.5rem;
-    transition: color 0.25s var(--ease);
 }
+/* The rule lives on the inner span, not the h3: an inline h3 would drop its
+   margin-bottom, and a block h3 would stretch the underline across the whole
+   column instead of hugging the words. Painted as a background so it wipes in
+   without shifting a pixel of layout. */
+.case-title span {
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 2px;
+    transition: background-size 0.4s var(--ease);
+}
+.case-summary:hover .case-title span { background-size: 100% 2px; }
 .case-kicker { color: var(--ink-2); max-width: 38rem; margin-bottom: 0.75rem; }
 .case-meta {
     font-family: var(--font-mono); font-size: 0.7rem;
@@ -363,15 +380,27 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
     flex: none; width: 2.25rem; height: 2.25rem; margin-top: 0.4rem;
     border: 1px solid var(--rule); border-radius: 50%;
     position: relative;
-    transition: border-color 0.25s var(--ease), transform 0.35s var(--ease);
+    transition: border-color 0.25s var(--ease), transform 0.35s var(--ease),
+                background-color 0.25s var(--ease);
 }
+.case-summary:hover .case-toggle {
+    border-color: var(--accent);
+    background: var(--accent);
+    transform: rotate(90deg);
+}
+.case-summary:hover .case-toggle::before,
+.case-summary:hover .case-toggle::after { border-top-color: var(--paper); }
 .case-toggle::before, .case-toggle::after {
     content: ''; position: absolute; inset: 50% 28%;
     border-top: 1px solid var(--ink);
-    transition: transform 0.35s var(--ease), opacity 0.25s var(--ease);
+    transition: transform 0.35s var(--ease), opacity 0.25s var(--ease),
+                border-color 0.25s var(--ease);
 }
 .case-toggle::after { transform: rotate(90deg); }
-.case[open] .case-toggle { border-color: var(--accent); transform: rotate(180deg); }
+.case[open] .case-toggle,
+.case[open] .case-summary:hover .case-toggle {
+    border-color: var(--accent); transform: rotate(180deg);
+}
 .case[open] .case-toggle::after { opacity: 0; }
 
 .case-body {
@@ -469,11 +498,19 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
     border-radius: 4px; overflow: hidden;
 }
 .approach {
+    position: relative;
     background: var(--paper);
     padding: clamp(1.5rem, 3vw, 2.25rem);
     transition: background-color 0.3s var(--ease);
 }
+.approach::before {
+    content: ''; position: absolute; left: 0; bottom: 0; top: 0;
+    width: 3px; background: var(--accent);
+    transform: scaleY(0); transform-origin: bottom;
+    transition: transform 0.35s var(--ease);
+}
 .approach:hover { background: var(--paper-2); }
+.approach:hover::before { transform: scaleY(1); }
 
 .approach-icon {
     display: inline-flex; color: var(--accent);
@@ -587,12 +624,14 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
    ============================================================ */
 [data-boop] {
     display: inline-flex;
-    transition: transform 0.35s cubic-bezier(0.18, 1.7, 0.5, 1);
+    /* the overshoot in this curve is the whole effect — it springs past the
+       target and settles back rather than easing politely into place */
+    transition: transform 0.42s cubic-bezier(0.16, 1.9, 0.4, 1);
 }
-[data-boop="tilt"].boop  { transform: rotate(-14deg) scale(1.12); }
-[data-boop="shake"].boop { transform: translateX(-3px) rotate(6deg) scale(1.1); }
-[data-boop="flip"].boop  { transform: rotate(8deg) scale(1.15); }
-[data-boop="rise"].boop  { transform: translateY(-4px) scale(1.1); }
+[data-boop="tilt"].boop  { transform: rotate(-20deg) scale(1.28); }
+[data-boop="shake"].boop { transform: translateX(-5px) rotate(10deg) scale(1.25); }
+[data-boop="flip"].boop  { transform: rotate(12deg) scale(1.3); }
+[data-boop="rise"].boop  { transform: translateY(-7px) scale(1.25); }
 
 /* section numbers and case numbers get the same treatment */
 .case-num, .step-num { display: inline-block; }
@@ -691,3 +730,41 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
     [data-boop] { transition: none; }
     [data-boop].boop { transform: none; }
 }
+
+/* ============================================================
+   Text-link wipe — one shared behaviour for nav, footer and the
+   earlier-work list, so every hoverable word behaves the same way.
+   ============================================================ */
+.nav a:not(.nav-cta),
+.earlier-list a,
+.footer-links a,
+.contact-direct a {
+    text-decoration: none;
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% 1px;
+    transition: background-size 0.3s var(--ease), color 0.2s var(--ease);
+}
+.nav a:not(.nav-cta):hover,
+.earlier-list a:hover,
+.footer-links a:hover,
+.contact-direct a:hover {
+    background-size: 100% 1px;
+    color: var(--ink);
+}
+
+/* The nav CTA already carries a rule, so it fills instead of underlining. */
+.nav .nav-cta { transition: color 0.25s var(--ease), border-color 0.25s var(--ease); }
+.nav .nav-cta:hover { color: var(--accent); border-bottom-width: 2px; }
+
+/* Earlier-work rows step aside on hover, matching the project rows. */
+.earlier-list li { transition: transform 0.25s var(--ease); }
+.earlier-list li:hover { transform: translateX(4px); }
+
+/* Steps and demo panes acknowledge the pointer too. */
+.step { transition: background-color 0.3s var(--ease); }
+.step:hover { background: var(--paper-2); }
+.step:hover .step-num { color: var(--accent); }
+
+.demo-opt:not([aria-pressed="true"]):hover { color: var(--ink); }

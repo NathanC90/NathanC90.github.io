@@ -138,7 +138,7 @@
        one beat and let the overshoot in the CSS easing do the work. It is
        decoration, so it only ever touches aria-hidden elements, and the
        reduced-motion media query neutralises it. */
-    var BOOP_MS = 350;
+    var BOOP_MS = 420;
 
     document.querySelectorAll('[data-boop]').forEach(function (el) {
         var timer;
