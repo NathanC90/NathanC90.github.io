@@ -46,6 +46,9 @@
 
         try { localStorage.setItem('lang', lang); } catch (e) { /* private mode */ }
 
+        var d = document.getElementById('demo');
+        if (d) d.dispatchEvent(new Event('langchange'));
+
         if (animate) {
             root.classList.remove('retype');
             void root.offsetWidth;            // restart the animation
@@ -128,6 +131,103 @@
     function setLabel(btn, en, zh) {
         btn.querySelector('[lang="en"]').textContent = en;
         btn.querySelector('[lang="zh"]').textContent = zh;
+    }
+
+    /* ---------- boop ---------------------------------------------------
+       A spring nudge on hover, lifted from joshwcomeau.com. Add .boop for
+       one beat and let the overshoot in the CSS easing do the work. It is
+       decoration, so it only ever touches aria-hidden elements, and the
+       reduced-motion media query neutralises it. */
+    var BOOP_MS = 350;
+
+    document.querySelectorAll('[data-boop]').forEach(function (el) {
+        var timer;
+        var boop = function () {
+            clearTimeout(timer);
+            el.classList.add('boop');
+            timer = setTimeout(function () { el.classList.remove('boop'); }, BOOP_MS);
+        };
+        el.addEventListener('mouseenter', boop);
+        // A parent row is a much bigger hover target than a 30px icon.
+        var row = el.closest('.approach, .case-summary, .step');
+        if (row) row.addEventListener('mouseenter', boop);
+    });
+
+    /* ---------- typesetting demo ---------------------------------------
+       Sets the same two paragraphs with one shared set of metrics, then
+       with metrics tuned per script. The English pane is identical in both
+       modes — which is the whole point: if you only read English, nothing
+       looks wrong. */
+    var demo = document.getElementById('demo');
+
+    if (demo) {
+        var verdict = demo.querySelector('.demo-verdict');
+        var thumb = demo.querySelector('.demo-thumb');
+        var opts = [].slice.call(demo.querySelectorAll('.demo-opt'));
+
+        var VERDICT = {
+            same: {
+                en: 'The English is fine. The Chinese is cramped — CJK characters are full-width ' +
+                    'squares and need far more room between lines, and the negative letter-spacing ' +
+                    'that tightens Latin text is actively squeezing them together.',
+                zh: '英文沒問題，中文卻擠成一團。中文字是全形方塊字，行距需要放得比英文寬得多；' +
+                    '而那個為了收緊英文而設的負字距，正把中文字硬擠在一起。'
+            },
+            tuned: {
+                en: 'Same paragraph, same page, different metrics: looser leading and positive ' +
+                    'tracking for the Chinese. Nothing about the English changed — which is exactly ' +
+                    'why this gets missed.',
+                zh: '同一段文字、同一頁，只是換了一組排版數值：中文放寬行距、字距轉正。英文完全沒動 ——' +
+                    '這正是這個問題常常被忽略的原因。'
+            }
+        };
+
+        var setMode = function (mode) {
+            demo.classList.toggle('tuned', mode === 'tuned');
+
+            opts.forEach(function (btn, i) {
+                var on = btn.dataset.mode === mode;
+                btn.setAttribute('aria-pressed', String(on));
+                if (on && thumb) {
+                    thumb.style.width = btn.offsetWidth + 'px';
+                    thumb.style.transform = 'translateX(' + (btn.offsetLeft - 3) + 'px)';
+                }
+            });
+
+            demo.querySelectorAll('.demo-pane').forEach(function (pane) {
+                // Read the custom properties, not the resolved line-height:
+                // those are mid-transition at this point and would report the
+                // value being animated away from. Custom properties flip at once.
+                var cs = getComputedStyle(pane.querySelector('.demo-text'));
+                pane.querySelector('.demo-stats').textContent =
+                    'line-height ' + cs.getPropertyValue('--demo-leading').trim() +
+                    '   ·   letter-spacing ' + cs.getPropertyValue('--demo-track').trim();
+            });
+
+            verdict.textContent = VERDICT[mode][root.classList.contains('zh') ? 'zh' : 'en'];
+        };
+
+        opts.forEach(function (btn) {
+            btn.addEventListener('click', function () { setMode(btn.dataset.mode); });
+        });
+
+        // The demo shows Chinese type whatever language the page is in, so it
+        // needs the CJK faces even for an English-reading visitor — but only
+        // once they have actually scrolled to it.
+        new IntersectionObserver(function (entries, obs) {
+            if (!entries[0].isIntersecting) return;
+            loadCjkFonts();
+            obs.disconnect();
+            setTimeout(function () { setMode(demo.classList.contains('tuned') ? 'tuned' : 'same'); }, 150);
+        }, { rootMargin: '200px' }).observe(demo);
+
+        setMode('same');
+        window.addEventListener('resize', function () {
+            setMode(demo.classList.contains('tuned') ? 'tuned' : 'same');
+        });
+        demo.addEventListener('langchange', function () {
+            setMode(demo.classList.contains('tuned') ? 'tuned' : 'same');
+        });
     }
 
     /* ---------- reveal on scroll ---------- */

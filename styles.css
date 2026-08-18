@@ -304,11 +304,22 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
     text-decoration: none; cursor: pointer;
     border: 1px solid var(--ink);
     transition: background-color 0.25s var(--ease), color 0.25s var(--ease),
-                border-color 0.25s var(--ease), transform 0.25s var(--ease);
+                border-color 0.25s var(--ease), transform 0.15s var(--ease),
+                box-shadow 0.15s var(--ease);
 }
-.btn:hover { transform: translateY(-1px); }
-.btn-solid { background: var(--ink); color: var(--paper); }
-.btn-solid:hover { background: var(--accent); border-color: var(--accent); }
+/* Pressable: the button sits on a lip that compresses when you push it. */
+.btn { box-shadow: 0 3px 0 var(--btn-lip, transparent); }
+.btn:hover { transform: translateY(-1px); box-shadow: 0 4px 0 var(--btn-lip, transparent); }
+.btn:active { transform: translateY(2px); box-shadow: 0 1px 0 var(--btn-lip, transparent); }
+.btn-solid {
+    background: var(--ink); color: var(--paper);
+    --btn-lip: color-mix(in srgb, var(--ink) 55%, var(--paper));
+}
+.btn-solid:hover {
+    background: var(--accent); border-color: var(--accent);
+    --btn-lip: color-mix(in srgb, var(--accent) 55%, var(--paper));
+}
+.btn-ghost { --btn-lip: var(--rule); }
 .btn-ghost { background: none; color: var(--ink); border-color: var(--rule); }
 .btn-ghost:hover { border-color: var(--ink); }
 .btn-sm { padding: 0.55rem 1.15rem; font-size: 0.825rem; }
@@ -447,15 +458,29 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
 .step p { color: var(--ink-2); font-size: 0.925rem; }
 
 /* ---------- approach ---------- */
+/* Fixed 2x2 — auto-fit gave three columns and left the fourth item
+   stranded alone on a second row. Four items want an even grid. */
 .approach-grid {
-    display: grid; gap: clamp(2rem, 4vw, 3.5rem);
-    grid-template-columns: repeat(auto-fit, minmax(18rem, 1fr));
+    list-style: none; margin: 0; padding: 0;
+    display: grid; gap: 1px;
+    grid-template-columns: repeat(2, 1fr);
+    background: var(--rule);
+    border: 1px solid var(--rule);
+    border-radius: 4px; overflow: hidden;
 }
-.approach h3 {
-    font-size: 1.3rem; margin-bottom: 0.75rem;
-    padding-bottom: 0.75rem; border-bottom: 1px solid var(--rule);
+.approach {
+    background: var(--paper);
+    padding: clamp(1.5rem, 3vw, 2.25rem);
+    transition: background-color 0.3s var(--ease);
 }
-.approach p { color: var(--ink-2); font-size: 0.95rem; }
+.approach:hover { background: var(--paper-2); }
+
+.approach-icon {
+    display: inline-flex; color: var(--accent);
+    margin-bottom: 1.1rem;
+}
+.approach h3 { font-size: 1.15rem; margin-bottom: 0.5rem; }
+.approach p { color: var(--ink-2); font-size: 0.92rem; max-width: 26rem; }
 
 .stack-line {
     margin-top: clamp(2.5rem, 5vw, 4rem);
@@ -553,4 +578,117 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
         transition-duration: 0.01ms !important;
     }
     :root.js .reveal { opacity: 1; transform: none; }
+}
+
+/* ============================================================
+   Boop — a spring nudge on hover. Borrowed shamelessly from
+   joshwcomeau.com. JS adds .boop for one beat; the overshoot in
+   the easing curve does the rest. Purely decorative, so it sits
+   on aria-hidden elements only and dies under reduced-motion.
+   ============================================================ */
+[data-boop] {
+    display: inline-flex;
+    transition: transform 0.35s cubic-bezier(0.18, 1.7, 0.5, 1);
+}
+[data-boop="tilt"].boop  { transform: rotate(-14deg) scale(1.12); }
+[data-boop="shake"].boop { transform: translateX(-3px) rotate(6deg) scale(1.1); }
+[data-boop="flip"].boop  { transform: rotate(8deg) scale(1.15); }
+[data-boop="rise"].boop  { transform: translateY(-4px) scale(1.1); }
+
+/* section numbers and case numbers get the same treatment */
+.case-num, .step-num { display: inline-block; }
+
+/* ============================================================
+   Typesetting demo
+   ============================================================ */
+.demo {
+    border: 1px solid var(--rule); border-radius: 4px;
+    background: var(--paper-2);
+    padding: clamp(1.25rem, 3vw, 2rem);
+}
+
+.demo-controls {
+    position: relative; display: inline-flex;
+    padding: 3px; margin-bottom: clamp(1.5rem, 3vw, 2.25rem);
+    border: 1px solid var(--rule); border-radius: 999px;
+    background: var(--paper);
+}
+.demo-opt {
+    position: relative; z-index: 1;
+    border: 0; background: none; cursor: pointer;
+    font-family: inherit; font-size: 0.82rem;
+    padding: 0.45rem 1.1rem; border-radius: 999px;
+    color: var(--ink-3); white-space: nowrap;
+    transition: color 0.3s var(--ease);
+}
+.demo-opt[aria-pressed="true"] { color: var(--paper); }
+.demo-thumb {
+    position: absolute; top: 3px; bottom: 3px; left: 3px;
+    width: var(--thumb-w, 50%);
+    background: var(--ink); border-radius: 999px;
+    transition: transform 0.4s var(--ease), width 0.4s var(--ease);
+}
+
+.demo-panes {
+    display: grid; gap: 1px;
+    grid-template-columns: repeat(2, 1fr);
+    background: var(--rule); border: 1px solid var(--rule); border-radius: 3px;
+    overflow: hidden;
+}
+.demo-pane { margin: 0; background: var(--paper); padding: clamp(1rem, 2.5vw, 1.5rem); }
+
+.demo-cap {
+    font-family: var(--font-mono); font-size: 0.65rem;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--ink-3); margin-bottom: 1rem;
+}
+
+/* The metrics themselves are the variable being demonstrated, so they are
+   set from custom properties that JS swaps — not from classes. */
+.demo-text {
+    font-family: var(--demo-family);
+    font-size: clamp(1.05rem, 1.9vw, 1.3rem);
+    line-height: var(--demo-leading);
+    letter-spacing: var(--demo-track);
+    transition: line-height 0.5s var(--ease), letter-spacing 0.5s var(--ease);
+    min-height: 7.5em;
+}
+.demo-en {
+    --demo-family: var(--font-display);
+    --demo-leading: 1.15;
+    --demo-track: -0.02em;
+}
+.demo-zh {
+    --demo-family: 'Noto Serif TC', 'Songti TC', 'PingFang TC', serif;
+    --demo-leading: 1.15;
+    --demo-track: -0.02em;
+}
+.demo.tuned .demo-zh {
+    --demo-leading: 1.95;
+    --demo-track: 0.04em;
+}
+
+.demo-stats {
+    margin-top: 1rem; padding-top: 0.75rem; border-top: 1px solid var(--rule);
+    font-family: var(--font-mono); font-size: 0.66rem;
+    color: var(--ink-3); letter-spacing: 0.02em;
+}
+
+.demo-verdict {
+    margin-top: 1.25rem; padding-left: 1rem;
+    border-left: 2px solid var(--accent);
+    font-size: 0.9rem; color: var(--ink-2);
+    min-height: 2.8em;
+}
+
+@media (max-width: 760px) {
+    .approach-grid { grid-template-columns: 1fr; }
+    .demo-panes { grid-template-columns: 1fr; }
+    .demo-controls { display: flex; width: 100%; }
+    .demo-opt { flex: 1; font-size: 0.75rem; padding-inline: 0.5rem; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    [data-boop] { transition: none; }
+    [data-boop].boop { transform: none; }
 }

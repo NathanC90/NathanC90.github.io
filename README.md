@@ -25,6 +25,11 @@ Both languages are written, not machine-translated.
 - Never set `display` on an element that also carries a `[lang]` attribute; it beats
   the visibility rules and both languages render at once. `selfcheck.js` enforces this.
 - `.reveal` is gated behind `:root.js` so the page is not blank with JavaScript off.
+- The typesetting demo reads `--demo-leading` / `--demo-track` to print its stats, NOT
+  the resolved `line-height`. Those properties are transitioned, so a computed read
+  during a mode change reports the value being animated away from, not the new one.
+- `boop` is decoration only: it sits on `aria-hidden` elements, and
+  `prefers-reduced-motion` neutralises it.
 - Each case study can pull the real deployed site into the page in an iframe, built
   on first click. This works because GitHub Pages sends no `X-Frame-Options` or
   `Content-Security-Policy` header — if that ever changes, the embeds go blank and
