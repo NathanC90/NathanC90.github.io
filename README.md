@@ -39,6 +39,12 @@ Both languages are written, not machine-translated.
 - CJK has no italic. Never let `font-style: italic` reach Chinese text; the browser
   fakes it by shearing the glyphs. Chinese emphasis in this design is a rule beneath
   the word.
+- Scroll animation is native CSS (`animation-timeline: view()` / `scroll()`), all of it
+  inside `@supports`. No GSAP, no Lenis, no scroll listener. A browser without support
+  gets the IntersectionObserver reveal, which is why that path is still there.
+- Never put a scroll sweep on the hero `.display`: it is already on screen at load, so
+  its `view()` timeline starts part-way through its range and the headline settles
+  half-grey forever. Sweeps only belong on headings you scroll to.
 - `boop` is decoration only: it sits on `aria-hidden` elements, and
   `prefers-reduced-motion` neutralises it.
 - Each case study can pull the real deployed site into the page in an iframe, built

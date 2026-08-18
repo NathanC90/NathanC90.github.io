@@ -848,3 +848,117 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
     #theme-btn.spin svg { transform: none; }
 }
 
+
+/* ============================================================
+   Scroll-driven animation
+   ============================================================
+
+   Reference for this section was trionn.com, which runs GSAP +
+   ScrollTrigger + Lenis + Three.js — roughly 700KB of JavaScript before
+   a single pixel of content. That is a fair trade for a studio selling
+   spectacle. It is the wrong trade for a page whose pitch is "it loads
+   fast on a phone" and whose readers are business owners on mobile data.
+
+   Everything below is native CSS scroll-driven animation: no library, no
+   scroll listener, no layout reads, and it runs off the main thread.
+   Every rule sits inside @supports, so a browser without it simply gets
+   the page as it was — the IntersectionObserver reveal still applies.
+   ============================================================ */
+
+.scroll-progress {
+    position: fixed; inset: 0 0 auto; height: 2px;
+    background: var(--accent);
+    transform: scaleX(0); transform-origin: 0 50%;
+    z-index: 60; pointer-events: none;
+}
+
+@supports (animation-timeline: scroll()) {
+    .scroll-progress {
+        animation: progress linear;
+        animation-timeline: scroll(root);
+    }
+    @keyframes progress { to { transform: scaleX(1); } }
+}
+
+@supports (animation-timeline: view()) {
+
+    /* --- Section headings fill as they rise ------------------------------
+       trionn.com does this by splitting text into per-word spans and
+       animating each. That cannot work here: word splitting assumes spaces,
+       and Chinese does not have any. A gradient swept behind the glyphs and
+       clipped to them reads the same, costs no DOM, and is script-agnostic. */
+    /* Deliberately NOT .display. The hero is already on screen when the page
+       loads, so its view() timeline starts part-way through its own range and
+       the headline settles half-grey — a dimmed first impression that never
+       resolves until you scroll. Sweeps belong on headings you actually
+       scroll to. */
+    .section-title {
+        background-image: linear-gradient(
+            95deg, var(--ink) 0 33%, var(--ink-3) 48% 100%);
+        background-size: 320% 100%;
+        background-position: 100% 0;
+        background-repeat: no-repeat;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: sweep linear both;
+        animation-timeline: view();
+        animation-range: entry 15% cover 45%;
+    }
+    @keyframes sweep { to { background-position: 0 0; } }
+
+
+    /* --- Sections track the scroll instead of snapping on ---------------
+       The IntersectionObserver reveal is binary: off, then on. Tying the
+       same movement to a view() timeline makes it follow the scroll, which
+       is what gives the reference site its sense of weight. */
+    :root.js .reveal,
+    :root.js .reveal.seen {
+        opacity: 1; transform: none; transition: none;
+        animation: rise linear both;
+        animation-timeline: view();
+        animation-range: entry 5% entry 75%;
+    }
+    @keyframes rise {
+        from { opacity: 0; transform: translateY(28px); }
+        to   { opacity: 1; transform: none; }
+    }
+
+    /* --- Parallax inside the case-study screenshots --------------------- */
+    .case-shot { overflow: hidden; border-radius: 3px; }
+    .case-shot img {
+        animation: drift linear both;
+        animation-timeline: view();
+        animation-range: cover;
+    }
+    @keyframes drift {
+        from { transform: translateY(-3%) scale(1.08); }
+        to   { transform: translateY(3%) scale(1.08); }
+    }
+
+    /* --- Project rows settle in one after another ----------------------- */
+    .work-item {
+        animation: settle linear both;
+        animation-timeline: view();
+        animation-range: entry 10% entry 65%;
+    }
+    @keyframes settle {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: none; }
+    }
+}
+
+/* Motion is the whole point of the above, so none of it survives here.
+   -webkit-text-fill-color has to be reset explicitly or the headings stay
+   transparent with the sweep frozen. */
+@media (prefers-reduced-motion: reduce) {
+    .section-title {
+        background-image: none;
+        color: var(--ink);
+        -webkit-text-fill-color: var(--ink);
+        animation: none;
+    }
+    .scroll-progress, .case-shot img, .work-item,
+    :root.js .reveal, :root.js .reveal.seen { animation: none; }
+    :root.js .reveal, :root.js .reveal.seen { opacity: 1; transform: none; }
+}
