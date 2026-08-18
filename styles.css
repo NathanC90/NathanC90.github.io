@@ -534,7 +534,6 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
 .footer { border-top: 1px solid var(--rule); padding-block: 3rem 4rem; }
 .footer-inner { display: grid; gap: 0.75rem; }
 .footer-name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 600; }
-.footer-note { color: var(--ink-3); font-size: 0.85rem; max-width: 32rem; }
 .footer-links { display: flex; gap: 1.5rem; font-size: 0.85rem; margin-top: 0.5rem; }
 .footer-links a { color: var(--ink-2); }
 
