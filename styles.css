@@ -184,11 +184,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
     transition: color 0.2s var(--ease);
 }
 .nav a:hover { color: var(--ink); }
-.nav .nav-cta {
-    color: var(--ink);
-    border-bottom: 1px solid var(--accent);
-    padding-bottom: 2px;
-}
+.nav .nav-cta { color: var(--ink); }
 
 .masthead-tools { display: flex; align-items: center; gap: 0.6rem; }
 
@@ -599,7 +595,6 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
     }
     .nav.open { transform: translateY(0); opacity: 1; pointer-events: auto; }
     .nav a { padding: 0.85rem 0; font-size: 1rem; width: 100%; }
-    .nav .nav-cta { border-bottom-width: 1px; }
     .wordmark-role { display: none; }
     .case-summary { gap: 1rem; }
     .case-toggle { width: 1.75rem; height: 1.75rem; }
@@ -735,7 +730,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
    Text-link wipe — one shared behaviour for nav, footer and the
    earlier-work list, so every hoverable word behaves the same way.
    ============================================================ */
-.nav a:not(.nav-cta),
+.nav a,
 .earlier-list a,
 .footer-links a,
 .contact-direct a {
@@ -746,7 +741,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
     background-size: 0% 1px;
     transition: background-size 0.3s var(--ease), color 0.2s var(--ease);
 }
-.nav a:not(.nav-cta):hover,
+.nav a:hover,
 .earlier-list a:hover,
 .footer-links a:hover,
 .contact-direct a:hover {
@@ -754,9 +749,7 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
     color: var(--ink);
 }
 
-/* The nav CTA already carries a rule, so it fills instead of underlining. */
-.nav .nav-cta { transition: color 0.25s var(--ease), border-color 0.25s var(--ease); }
-.nav .nav-cta:hover { color: var(--accent); border-bottom-width: 2px; }
+
 
 /* Earlier-work rows step aside on hover, matching the project rows. */
 .earlier-list li { transition: transform 0.25s var(--ease); }
@@ -768,3 +761,68 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
 .step:hover .step-num { color: var(--accent); }
 
 .demo-opt:not([aria-pressed="true"]):hover { color: var(--ink); }
+
+/* ============================================================
+   Headline swap — poke the emphasised word and it says itself in
+   the other language. Stacked in a single grid cell so the box is
+   sized by the wider of the two and the rest of the headline never
+   reflows.
+   ============================================================ */
+/* The two words are deliberately near-identical in width (bilingual 242px
+   vs 中英雙語 251px at the display size) so the box the grid reserves does
+   not leave a visible hole behind the shorter one. */
+.swap {
+    display: inline-grid;
+    justify-items: start;
+    cursor: pointer;
+    vertical-align: baseline;
+}
+.swap > span {
+    grid-area: 1 / 1;
+    transition: opacity 0.28s var(--ease), transform 0.28s var(--ease);
+}
+.swap .swap-b { opacity: 0; transform: translateY(0.22em) rotate(2deg); }
+
+.swap:hover .swap-a,
+.swap.on .swap-a { opacity: 0; transform: translateY(-0.22em) rotate(-2deg); }
+.swap:hover .swap-b,
+.swap.on .swap-b { opacity: 1; transform: none; }
+
+/* The Chinese half marks emphasis with a rule instead of italics, so the
+   rule has to sit on the swap box rather than on the em. */
+:root.zh .display em.swap { border-bottom: 0; }
+:root.zh .swap .swap-a { border-bottom: 3px solid var(--accent); padding-bottom: 0.06em; }
+
+/* Theme toggle earns a full turn. */
+.icon-btn svg { transition: transform 0.5s var(--ease); }
+#theme-btn.spin svg { transform: rotate(360deg) scale(1.15); }
+
+/* The availability dot reacts to its own badge. */
+.status:hover .dot { animation-duration: 0.9s; }
+
+@media (prefers-reduced-motion: reduce) {
+    .swap > span { transition: none; }
+    #theme-btn.spin svg { transform: none; }
+}
+
+/* CJK has no italic form. Left alone, the browser synthesises one by
+   shearing the glyphs — which is precisely the sloppiness this page
+   spends a whole section arguing against. Chinese in the headline gets
+   the rule-underneath treatment the Chinese page uses instead. */
+.swap-b[lang="zh-Hant"] {
+    font-style: normal;
+    font-family: 'Noto Serif TC', 'Songti TC', 'PingFang TC', serif;
+}
+:root:not(.zh) .swap-b[lang="zh-Hant"] {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 0.06em;
+}
+/* ...and the reverse: English swapped into the Chinese headline should
+   take the italic, not the rule. */
+:root.zh .swap-b[lang="en-GB"] {
+    font-style: italic;
+    /* NOT var(--font-display) — under :root.zh that token IS the CJK face,
+       which would set this English word in Noto Serif TC. */
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    border-bottom: 0;
+}

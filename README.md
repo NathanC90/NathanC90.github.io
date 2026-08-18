@@ -28,6 +28,12 @@ Both languages are written, not machine-translated.
 - The typesetting demo reads `--demo-leading` / `--demo-track` to print its stats, NOT
   the resolved `line-height`. Those properties are transitioned, so a computed read
   during a mode change reports the value being animated away from, not the new one.
+- Inside a `:root.zh` rule, `var(--font-display)` resolves to the *CJK* face. To set
+  something in Fraunces there, name the family explicitly — the headline swap needs
+  this, and it silently renders English in Noto Serif TC otherwise.
+- CJK has no italic. Never let `font-style: italic` reach Chinese text; the browser
+  fakes it by shearing the glyphs. Chinese emphasis in this design is a rule beneath
+  the word.
 - `boop` is decoration only: it sits on `aria-hidden` elements, and
   `prefers-reduced-motion` neutralises it.
 - Each case study can pull the real deployed site into the page in an iframe, built

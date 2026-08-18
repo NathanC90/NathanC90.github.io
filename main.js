@@ -71,6 +71,10 @@
     var themeColor = document.querySelector('meta[name="theme-color"]');
 
     themeBtn.addEventListener('click', function () {
+        themeBtn.classList.remove('spin');
+        void themeBtn.offsetWidth;
+        themeBtn.classList.add('spin');
+
         var isDark = root.classList.toggle('dark');
         try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) { /* private mode */ }
         themeColor.setAttribute('content', isDark ? '#14120e' : '#f2efe7');
@@ -151,6 +155,14 @@
         // A parent row is a much bigger hover target than a 30px icon.
         var row = el.closest('.approach, .case-summary, .step');
         if (row) row.addEventListener('mouseenter', boop);
+    });
+
+    /* ---------- headline swap ------------------------------------------
+       Hover carries it on a mouse; touch has no hover, so a tap toggles
+       the same state. Ornamental, so the swapped-in word is aria-hidden
+       and the headline still reads as one sentence to a screen reader. */
+    document.querySelectorAll('.swap').forEach(function (el) {
+        el.addEventListener('click', function () { el.classList.toggle('on'); });
     });
 
     /* ---------- typesetting demo ---------------------------------------
