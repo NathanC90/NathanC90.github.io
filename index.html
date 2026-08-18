@@ -1,14 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <meta name="google-site-verification" content="nabF9rzs2Yg_PxZNrwcRF5Ve_0xP_8wc1gzUO5ubxVs" />
-    <title>Nathan Chao | Frontend Developer & UI/UX Engineer</title>
+    <title>Nathan Chao | Bilingual websites for local businesses</title>
     <meta name="description"
-        content="Nathan Chao is a freelance frontend developer specializing in high-performance React & JavaScript web apps, pixel-perfect UI, and premium web experiences. Available for hire.">
-    <meta name="keywords" content="Nathan Chao, frontend developer, React developer, JavaScript engineer, UI developer, freelance web developer, portfolio, Taiwan, web design">
+        content="Nathan Chao builds bilingual (繁體中文 / English) websites for small businesses in Taiwan — booking flows, clinic and studio sites, product pages. Fast, mobile-first, and findable on Google.">
+    <meta name="keywords" content="Nathan Chao, 網頁設計, 雙語網站, bilingual website, frontend developer Taiwan, 線上預約系統, freelance web developer, 台北網頁設計, booking website">
     <meta name="author" content="Nathan Chao">
     <meta name="robots" content="index, follow">
 
@@ -20,605 +20,643 @@
     <link rel="alternate" hreflang="zh-TW" href="https://nathanc90.github.io/">
     <link rel="alternate" hreflang="x-default" href="https://nathanc90.github.io/">
 
-    <!-- Open Graph (Facebook / LinkedIn) -->
+    <!-- Open Graph (Facebook / LINE / LinkedIn) -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://nathanc90.github.io/">
-    <meta property="og:title" content="Nathan Chao | Frontend Developer & UI/UX Engineer">
-    <meta property="og:description" content="Freelance frontend developer specializing in high-performance React & JavaScript web apps. Available for new projects.">
+    <meta property="og:title" content="Nathan Chao | Bilingual websites for local businesses">
+    <meta property="og:description" content="Booking flows, clinic and studio sites, product pages — built in 繁體中文 and English by one developer, start to finish.">
     <meta property="og:image" content="https://nathanc90.github.io/images/og-preview.png">
     <meta property="og:locale" content="en_US">
     <meta property="og:locale:alternate" content="zh_TW">
-    <meta property="og:site_name" content="Nathan Chao Portfolio">
+    <meta property="og:site_name" content="Nathan Chao">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Nathan Chao | Frontend Developer">
-    <meta name="twitter:description" content="Freelance frontend developer specializing in high-performance React & JavaScript web apps. Available for new projects.">
+    <meta name="twitter:title" content="Nathan Chao | Bilingual websites for local businesses">
+    <meta name="twitter:description" content="Booking flows, clinic and studio sites, product pages — built in 繁體中文 and English by one developer, start to finish.">
     <meta name="twitter:image" content="https://nathanc90.github.io/images/og-preview.png">
 
-    <!-- Mobile & PWA optimization -->
-    <meta name="theme-color" content="#070b14">
+    <!-- Mobile & PWA -->
+    <meta name="theme-color" content="#f4f1ea">
     <link rel="manifest" href="./icon/manifest.json">
     <link rel="apple-touch-icon" href="./icon/apple-icon.png">
+    <link rel="icon" type="image/x-icon" href="./icon/favicon.ico">
 
     <!-- JSON-LD Structured Data -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Nathan Chao",
+      "@type": "ProfessionalService",
+      "name": "Nathan Chao — Web Development",
       "url": "https://nathanc90.github.io/",
       "email": "ymnchao@gmail.com",
-      "jobTitle": "Frontend Developer",
-      "description": "Freelance frontend developer specializing in high-performance React and JavaScript web applications.",
-      "knowsAbout": ["HTML", "CSS", "JavaScript", "React", "Node.js", "UI/UX Design", "Web Performance"],
-      "sameAs": [
-        "https://github.com/NathanC90"
-      ],
-      "offers": {
+      "description": "Bilingual (Traditional Chinese and English) website development for small businesses: booking flows, clinic and studio sites, product pages.",
+      "areaServed": "TW",
+      "availableLanguage": ["zh-Hant", "en"],
+      "founder": {
+        "@type": "Person",
+        "name": "Nathan Chao",
+        "jobTitle": "Frontend Developer",
+        "knowsLanguage": ["zh-Hant", "en"],
+        "sameAs": ["https://github.com/NathanC90"]
+      },
+      "makesOffer": {
         "@type": "Offer",
-        "description": "Freelance frontend development and UI engineering services",
+        "description": "Freelance bilingual website design and development",
         "availability": "https://schema.org/InStock"
       }
     }
     </script>
 
-    <!-- Modern Fonts: non-render-blocking async load -->
+    <!-- Latin type: serif display + sans body. CJK faces load on demand, see setLang(). -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" media="print" onload="this.media='all'">
-    <noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"></noscript>
-
-    <!-- Icons -->
-    <script defer src="https://kit.fontawesome.com/8ee8623724.js" crossorigin="anonymous"></script>
+    <link rel="preload" as="style"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap">
+    <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap"
+        media="print" onload="this.media='all'">
+    <noscript>
+        <link rel="stylesheet"
+            href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Inter:wght@400;500;600&display=swap">
+    </noscript>
 
     <link rel="stylesheet" href="styles.css">
-    <link rel="icon" type="image/x-icon" href="./icon/favicon.ico">
+
+    <!-- Applied before first paint so the saved theme/language never flashes. -->
+    <script>
+        (function () {
+            // Gates the scroll-reveal CSS: without JS nothing would ever
+            // add .seen, so the page must not start those sections hidden.
+            document.documentElement.classList.add('js');
+            var t = localStorage.getItem('theme');
+            if (t === 'dark') document.documentElement.classList.add('dark');
+            if (localStorage.getItem('lang') === 'zh') {
+                document.documentElement.classList.add('zh');
+                document.documentElement.lang = 'zh-Hant';
+            }
+        })();
+    </script>
 </head>
 
 <body id="top">
-    <!-- Background Glow Effects -->
-    <div class="ambient-glow glow-1"></div>
-    <div class="ambient-glow glow-2"></div>
 
-    <header class="glass-nav" id="navbar">
-        <div class="container nav-content">
-            <a href="#top" class="logo">NC<span class="accent">.</span></a>
-            <ul class="nav-links">
-                <li><a href="#expertise"><span lang="en">Expertise</span><span lang="zh">專業技能</span></a></li>
-                <li><a href="#work"><span lang="en">Work</span><span lang="zh">作品集</span></a></li>
-                <li><a href="#stack"><span lang="en">Stack</span><span lang="zh">技術棧</span></a></li>
-                <li><a href="#contact" class="btn-primary-outline"><span lang="en">Hire Me</span><span lang="zh">聘請我</span></a></li>
-                <li><button id="theme-btn" class="btn-primary-outline theme-btn" aria-label="Toggle Theme"><i class="fa-solid fa-moon"></i></button></li>
-                <li><button id="lang-btn" class="btn-primary-outline lang-btn"><i class="fa-solid fa-globe"></i> 中/EN</button></li>
-            </ul>
-            <div class="mobile-menu-btn">
-                <i class="fa-solid fa-bars"></i>
+    <a href="#work" class="skip-link"><span lang="en">Skip to work</span><span lang="zh">跳至作品</span></a>
+
+    <header class="masthead" id="masthead">
+        <div class="shell masthead-inner">
+            <a href="#top" class="wordmark">
+                <span class="wordmark-name">Nathan Chao</span>
+                <span class="wordmark-role">
+                    <span lang="en">Web development</span><span lang="zh">網頁開發</span>
+                </span>
+            </a>
+
+            <nav class="nav" aria-label="Primary">
+                <a href="#work"><span lang="en">Work</span><span lang="zh">作品</span></a>
+                <a href="#process"><span lang="en">How it works</span><span lang="zh">合作方式</span></a>
+                <a href="#approach"><span lang="en">Approach</span><span lang="zh">我的作法</span></a>
+                <a href="#contact" class="nav-cta"><span lang="en">Start a project</span><span lang="zh">開始洽談</span></a>
+            </nav>
+
+            <div class="masthead-tools">
+                <!-- The language switch is the centrepiece interaction: it re-typesets the page. -->
+                <div class="lang-switch" role="group" aria-label="Language / 語言">
+                    <button type="button" class="lang-opt" data-lang="en" aria-pressed="true">EN</button>
+                    <button type="button" class="lang-opt" data-lang="zh" aria-pressed="false">中</button>
+                    <span class="lang-thumb" aria-hidden="true"></span>
+                </div>
+                <button type="button" id="theme-btn" class="icon-btn" aria-label="Toggle dark mode">
+                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                        <path class="icon-sun" d="M12 4V2m0 20v-2m8-8h2M2 12h2m13.66-5.66 1.41-1.41M4.93 19.07l1.41-1.41m11.32 0 1.41 1.41M4.93 4.93l1.41 1.41" />
+                        <circle class="icon-sun" cx="12" cy="12" r="4" />
+                        <path class="icon-moon" d="M20 14.5A8 8 0 0 1 9.5 4a8.5 8.5 0 1 0 10.5 10.5Z" />
+                    </svg>
+                </button>
+                <button type="button" class="icon-btn menu-btn" aria-label="Menu" aria-expanded="false">
+                    <svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true" focusable="false">
+                        <path d="M3 6h18M3 12h18M3 18h18" />
+                    </svg>
+                </button>
             </div>
         </div>
     </header>
 
     <main>
-        <!-- Hero Section -->
-        <section id="hero" class="container">
-            <div class="hero-content">
-                <a href="mailto:ymnchao@gmail.com" class="badge fade-in-up">
-                    <span class="pulse-dot"></span> 
-                    <span lang="en">Available for Freelance Work</span>
-                    <span lang="zh">歡迎自由接案洽詢</span>
-                </a>
-                <h1 class="hero-title fade-in-up">
-                    <span lang="en">Building <span class="gradient-text">High-Performance</span><br>Frontend Experiences</span>
-                    <span lang="zh">打造 <span class="gradient-text">高效能</span>的<br>前端體驗</span>
-                </h1>
-                <p class="hero-subtitle fade-in-up" style="animation-delay: 0.1s">
-                    <span lang="en">I'm Nathan Chao, a solution-driven frontend developer specializing in scalable, responsive, and
-                    visually stunning web applications for forward-thinking brands.</span>
-                    <span lang="zh">我是 Nathan Chao，一位以解決方案為導向的前端工程師，專注為具前瞻性的品牌，打造高擴展性、響應迅速且視覺出色的 Web 應用。</span>
+
+        <!-- ============ HERO ============ -->
+        <section class="hero shell">
+            <p class="eyebrow status">
+                <span class="dot" aria-hidden="true"></span>
+                <span lang="en">Available for new projects</span><span lang="zh">目前開放接案</span>
+            </p>
+
+            <h1 class="display">
+                <span lang="en">I build <em>bilingual</em> websites for local businesses.</span>
+                <span lang="zh">我為在地商家打造<em>中英雙語</em>網站</span>
+            </h1>
+
+            <p class="lede">
+                <span lang="en">Booking flows, clinic and studio sites, product pages — written properly in
+                    both 繁體中文 and English, not run through a translator. One developer, from first
+                    sketch to the day it goes live.</span>
+                <span lang="zh">線上預約、診所與工作室官網、產品介紹頁。中英文都是逐字寫過的，不是丟翻譯軟體了事。從草稿到上線，都由我一個人負責到底。</span>
+            </p>
+
+            <!-- Makes the showpiece interaction discoverable instead of hiding it in the nav. -->
+            <p class="hero-hint">
+                <span lang="en">Not sure what "properly" means? Hit <strong>中</strong> up there — the whole
+                    page re-typesets, type family and all.</span>
+                <span lang="zh">想知道什麼叫「逐字寫過」？按上面那顆 <strong>EN</strong> ——
+                    整個頁面會連字體一起重新排版。</span>
+            </p>
+
+            <div class="hero-actions">
+                <a href="#work" class="btn btn-solid"><span lang="en">See the work</span><span lang="zh">看看作品</span></a>
+                <a href="#contact" class="btn btn-ghost"><span lang="en">Start a project</span><span lang="zh">開始洽談</span></a>
+            </div>
+        </section>
+
+        <!-- ============ WORK ============ -->
+        <section id="work" class="shell band reveal">
+            <div class="band-head">
+                <p class="eyebrow"><span lang="en">01 — Work</span><span lang="zh">01 — 作品</span></p>
+                <h2 class="section-title">
+                    <span lang="en">Four things I have built and shipped.</span>
+                    <span lang="zh">四個已經做完、也真的上線的東西。</span>
+                </h2>
+                <p class="section-note">
+                    <span lang="en">Every one of these is live and open right now. Open a project to read
+                        what it needed and how it was solved — or load the real thing in the page and click
+                        around it yourself.</span>
+                    <span lang="zh">以下每一個都還在線上運作中。展開可以看到當初的需求與解法，也可以直接把成品載進這一頁，自己動手點點看。</span>
                 </p>
-                <div class="hero-actions fade-in-up" style="animation-delay: 0.2s">
-                    <a href="#work" class="btn btn-primary"><span lang="en">View My Work</span><span lang="zh">看看我的作品</span> <i class="fa-solid fa-arrow-right"></i></a>
-                    <a href="#contact" class="btn btn-secondary"><span lang="en">Get in Touch</span><span lang="zh">與我聯絡</span></a>
-                </div>
             </div>
+
+            <ol class="work-list">
+
+                <!-- ---- 01 Evergreen Dental ---- -->
+                <li class="work-item">
+                    <details class="case" data-embed="https://nathanc90.github.io/evergreen-dental/">
+                        <summary class="case-summary">
+                            <span class="case-num">01</span>
+                            <span class="case-heads">
+                                <h3 class="case-title"><span lang="en">Evergreen Dental</span><span lang="zh">常青牙醫診所</span></h3>
+                                <p class="case-kicker">
+                                    <span lang="en">A clinic site built around a four-step online booking flow.</span>
+                                    <span lang="zh">以四步驟線上預約為核心的診所網站。</span>
+                                </p>
+                                <p class="case-meta">
+                                    <span lang="en">Booking flow · Bilingual · No framework</span>
+                                    <span lang="zh">線上預約 · 中英雙語 · 無框架</span>
+                                </p>
+                            </span>
+                            <span class="case-toggle" aria-hidden="true"></span>
+                        </summary>
+
+                        <div class="case-body">
+                            <figure class="case-shot">
+                                <img loading="lazy" src="./images/top-evergreen-dental.jpg"
+                                    alt="Evergreen Dental homepage with a serif headline and a booking panel showing available appointment times">
+                            </figure>
+
+                            <div class="case-notes">
+                                <div lang="en" class="notes">
+                                    <h4>The brief</h4>
+                                    <p>A dental clinic loses bookings every time someone has to call during
+                                        opening hours. The site had to take the appointment itself, on a phone,
+                                        in either language.</p>
+                                    <h4>What I did</h4>
+                                    <p>A four-step booking flow that validates as you go, with a clickable error
+                                        summary so nobody hunts for the field they missed, and honest loading,
+                                        success and failure states. Both languages are set with their own
+                                        typography, not one layout with the words swapped.</p>
+                                    <h4>Worth knowing</h4>
+                                    <p>No framework and no build step — plain HTML, CSS and JavaScript. It loads
+                                        fast on a phone on mobile data, and it can be handed to any developer
+                                        later without a lecture.</p>
+                                </div>
+                                <div lang="zh" class="notes">
+                                    <h4>當初的需求</h4>
+                                    <p>診所每次要求客人「上班時間打電話預約」，就會流失一些預約。網站本身必須能收單，手機上要好操作，中英文都要能用。</p>
+                                    <h4>我做了什麼</h4>
+                                    <p>四步驟預約流程，每一步即時驗證；錯誤總覽可以直接點回該欄位，不用自己找漏填哪一格；載入中、成功、失敗的狀態都完整交代。中英文各有各的排版設定，不是同一套版型換掉文字而已。</p>
+                                    <h4>技術重點</h4>
+                                    <p>沒有用框架，也沒有打包流程，就是純 HTML、CSS 跟 JavaScript。手機用行動網路開也很快，日後要轉交給其他工程師接手，不需要額外教學。</p>
+                                </div>
+
+                                <div class="case-actions">
+                                    <button type="button" class="btn btn-solid btn-sm embed-btn">
+                                        <span lang="en">Load it in this page</span><span lang="zh">直接載進這一頁</span>
+                                    </button>
+                                    <a class="btn btn-ghost btn-sm" href="https://nathanc90.github.io/evergreen-dental/" target="_blank" rel="noopener">
+                                        <span lang="en">Open full site</span><span lang="zh">開啟完整網站</span>
+                                    </a>
+                                    <a class="btn btn-ghost btn-sm" href="https://github.com/NathanC90/evergreen-dental" target="_blank" rel="noopener">
+                                        <span lang="en">Read the code</span><span lang="zh">看原始碼</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="embed-slot"></div>
+                        </div>
+                    </details>
+                </li>
+
+                <!-- ---- 02 CineScope ---- -->
+                <li class="work-item">
+                    <details class="case" data-embed="https://nathanc90.github.io/cinescope/">
+                        <summary class="case-summary">
+                            <span class="case-num">02</span>
+                            <span class="case-heads">
+                                <h3 class="case-title"><span lang="en">CineScope</span><span lang="zh">CineScope 電影探索</span></h3>
+                                <p class="case-kicker">
+                                    <span lang="en">A film discovery app, and the piece that shows how I handle real data.</span>
+                                    <span lang="zh">電影探索應用，也是最能看出我怎麼處理真實資料的一件作品。</span>
+                                </p>
+                                <p class="case-meta">
+                                    <span lang="en">React · TypeScript · Live API</span>
+                                    <span lang="zh">React · TypeScript · 串接即時 API</span>
+                                </p>
+                            </span>
+                            <span class="case-toggle" aria-hidden="true"></span>
+                        </summary>
+
+                        <div class="case-body">
+                            <figure class="case-shot">
+                                <img loading="lazy" src="./images/top-cinescope.jpg"
+                                    alt="CineScope movie discovery app showing a responsive grid of film cards with ratings">
+                            </figure>
+
+                            <div class="case-notes">
+                                <div lang="en" class="notes">
+                                    <h4>The brief</h4>
+                                    <p>Something to search a live film database, keep a personal watchlist, and
+                                        survive being shared as a link — set myself, to prove out the parts of a
+                                        build that clients never see but always feel.</p>
+                                    <h4>What I did</h4>
+                                    <p>Search that cancels its own stale requests, so typing quickly can't leave
+                                        you looking at results for a word you already deleted. Deep links you can
+                                        send to someone. A watchlist that persists. Light and dark themes that
+                                        both pass contrast.</p>
+                                    <h4>Worth knowing</h4>
+                                    <p>The API key is not in the website. It lives as a secret on a small
+                                        Cloudflare Worker that sits in front of the film database and only
+                                        forwards three approved requests. A site that calls the API directly has
+                                        to ship its key to every visitor's browser — anyone can read it and spend
+                                        your quota. This is the part I would want a client to ask me about.</p>
+                                </div>
+                                <div lang="zh" class="notes">
+                                    <h4>當初的需求</h4>
+                                    <p>想做一個能搜尋即時電影資料庫、能存個人待看清單、而且丟連結給別人也不會壞掉的東西。這是我自己出的題目，用來練那些客戶看不見、但一定感受得到的環節。</p>
+                                    <h4>我做了什麼</h4>
+                                    <p>搜尋會自動取消過期的請求，所以打字快一點也不會看到早就刪掉的關鍵字結果。每個頁面都有可以直接分享的連結。待看清單會保存下來。深淺兩種配色的對比度都有通過檢查。</p>
+                                    <h4>技術重點</h4>
+                                    <p>API 金鑰沒有放在網站裡。它是存在一個小型 Cloudflare Worker 上的機密設定，由它擋在電影資料庫前面，只放行三種允許的請求。如果網站直接呼叫 API，金鑰就得跟著送到每一位訪客的瀏覽器，任何人都讀得到，也花得掉你的額度。這一段是我最希望客戶開口問我的部分。</p>
+                                </div>
+
+                                <div class="case-actions">
+                                    <button type="button" class="btn btn-solid btn-sm embed-btn">
+                                        <span lang="en">Load it in this page</span><span lang="zh">直接載進這一頁</span>
+                                    </button>
+                                    <a class="btn btn-ghost btn-sm" href="https://nathanc90.github.io/cinescope/" target="_blank" rel="noopener">
+                                        <span lang="en">Open full site</span><span lang="zh">開啟完整網站</span>
+                                    </a>
+                                    <a class="btn btn-ghost btn-sm" href="https://github.com/NathanC90/cinescope" target="_blank" rel="noopener">
+                                        <span lang="en">Read the code</span><span lang="zh">看原始碼</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="embed-slot"></div>
+                        </div>
+                    </details>
+                </li>
+
+                <!-- ---- 03 Echoloop ---- -->
+                <li class="work-item">
+                    <details class="case" data-embed="https://nathanc90.github.io/echoloop/">
+                        <summary class="case-summary">
+                            <span class="case-num">03</span>
+                            <span class="case-heads">
+                                <h3 class="case-title"><span lang="en">Echoloop</span><span lang="zh">Echoloop 語言跟讀訓練</span></h3>
+                                <p class="case-kicker">
+                                    <span lang="en">A listening and shadowing trainer that scores your pronunciation in the browser.</span>
+                                    <span lang="zh">在瀏覽器裡就能評分發音的聽力與跟讀練習工具。</span>
+                                </p>
+                                <p class="case-meta">
+                                    <span lang="en">React · Audio &amp; speech · Works offline</span>
+                                    <span lang="zh">React · 語音處理 · 可離線使用</span>
+                                </p>
+                            </span>
+                            <span class="case-toggle" aria-hidden="true"></span>
+                        </summary>
+
+                        <div class="case-body">
+                            <figure class="case-shot">
+                                <img loading="lazy" src="./images/top-echoloop.jpg"
+                                    alt="Echoloop language trainer showing a lesson with four practice stages, a play button and an audio scrub bar">
+                            </figure>
+
+                            <div class="case-notes">
+                                <div lang="en" class="notes">
+                                    <h4>The brief</h4>
+                                    <p>I wanted a shadowing tool for my own language practice and could not find
+                                        one that did not want an account and a subscription.</p>
+                                    <h4>What I did</h4>
+                                    <p>It records you speaking, uses the browser's own speech recognition to
+                                        judge how clearly each word came through, and quietly collects the lines
+                                        you keep fumbling into a review list. Eight languages.</p>
+                                    <h4>Worth knowing</h4>
+                                    <p>No accounts, no server, no analytics — your voice never leaves the device.
+                                        It also keeps working with the plane's wifi off. Proof that "we need a
+                                        backend for this" is often not true, which usually shows up on a client's
+                                        invoice as a hosting bill they never have to pay.</p>
+                                </div>
+                                <div lang="zh" class="notes">
+                                    <h4>當初的需求</h4>
+                                    <p>我自己想練跟讀，但找來找去，每一套工具都要註冊帳號、還要訂閱付費，乾脆自己做一個。</p>
+                                    <h4>我做了什麼</h4>
+                                    <p>錄下你的發音後，用瀏覽器內建的語音辨識判斷每個字說得夠不夠清楚，並把一直卡住的句子默默收進複習清單。支援八種語言。</p>
+                                    <h4>技術重點</h4>
+                                    <p>不用註冊、沒有後端、也沒有任何追蹤分析，你的聲音完全不會離開你的裝置；飛機上關掉網路也照樣能用。這件作品證明了「這個一定要有後端」通常不成立，而這件事反映在客戶帳單上，就是一筆從頭到尾都不用付的主機費。</p>
+                                </div>
+
+                                <div class="case-actions">
+                                    <button type="button" class="btn btn-solid btn-sm embed-btn">
+                                        <span lang="en">Load it in this page</span><span lang="zh">直接載進這一頁</span>
+                                    </button>
+                                    <a class="btn btn-ghost btn-sm" href="https://nathanc90.github.io/echoloop/" target="_blank" rel="noopener">
+                                        <span lang="en">Open full site</span><span lang="zh">開啟完整網站</span>
+                                    </a>
+                                    <a class="btn btn-ghost btn-sm" href="https://github.com/NathanC90/echoloop" target="_blank" rel="noopener">
+                                        <span lang="en">Read the code</span><span lang="zh">看原始碼</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="embed-slot"></div>
+                        </div>
+                    </details>
+                </li>
+
+                <!-- ---- 04 Movies Watchlist ---- -->
+                <li class="work-item">
+                    <details class="case" data-embed="https://nathanc90.github.io/movies-watchlist/">
+                        <summary class="case-summary">
+                            <span class="case-num">04</span>
+                            <span class="case-heads">
+                                <h3 class="case-title"><span lang="en">Movies Watchlist</span><span lang="zh">電影待看清單</span></h3>
+                                <p class="case-kicker">
+                                    <span lang="en">The same idea as CineScope, built earlier with no framework at all.</span>
+                                    <span lang="zh">跟 CineScope 同樣的題目，但這是更早期、完全沒用框架的版本。</span>
+                                </p>
+                                <p class="case-meta">
+                                    <span lang="en">Vanilla JavaScript · API · Local storage</span>
+                                    <span lang="zh">原生 JavaScript · 串接 API · 本機儲存</span>
+                                </p>
+                            </span>
+                            <span class="case-toggle" aria-hidden="true"></span>
+                        </summary>
+
+                        <div class="case-body">
+                            <figure class="case-shot">
+                                <img loading="lazy" src="./images/top-movies-watchlist.jpg"
+                                    alt="Movie search app displaying a grid of film posters returned from the OMDb API">
+                            </figure>
+
+                            <div class="case-notes">
+                                <div lang="en" class="notes">
+                                    <h4>Why it is still here</h4>
+                                    <p>Search against the OMDb film database, a saved watchlist, detail modals
+                                        and a dark mode that remembers itself — all in plain JavaScript, no
+                                        framework, no build tooling.</p>
+                                    <h4>Worth knowing</h4>
+                                    <p>I kept this alongside CineScope on purpose. Put them side by side and you
+                                        can see the same problem solved with and without React, which is the
+                                        clearest evidence I can offer that I pick tools rather than default to
+                                        them.</p>
+                                </div>
+                                <div lang="zh" class="notes">
+                                    <h4>為什麼還留著這件</h4>
+                                    <p>串接 OMDb 電影資料庫的搜尋、可保存的待看清單、詳細資訊彈窗，還有會記住設定的深色模式，全部用原生 JavaScript 完成，沒有框架，也沒有打包工具。</p>
+                                    <h4>技術重點</h4>
+                                    <p>我是刻意把它跟 CineScope 一起留著的。兩件擺在一起看，就是同一個題目分別「用 React」跟「不用 React」的解法。要證明我是在挑工具、而不是無腦套框架，這是我拿得出來最清楚的證據。</p>
+                                </div>
+
+                                <div class="case-actions">
+                                    <button type="button" class="btn btn-solid btn-sm embed-btn">
+                                        <span lang="en">Load it in this page</span><span lang="zh">直接載進這一頁</span>
+                                    </button>
+                                    <a class="btn btn-ghost btn-sm" href="https://nathanc90.github.io/movies-watchlist/" target="_blank" rel="noopener">
+                                        <span lang="en">Open full site</span><span lang="zh">開啟完整網站</span>
+                                    </a>
+                                    <a class="btn btn-ghost btn-sm" href="https://github.com/NathanC90/movies-watchlist" target="_blank" rel="noopener">
+                                        <span lang="en">Read the code</span><span lang="zh">看原始碼</span>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="embed-slot"></div>
+                        </div>
+                    </details>
+                </li>
+            </ol>
+
+            <details class="earlier">
+                <summary>
+                    <span lang="en">Earlier practice work — seven small builds from when I was learning</span>
+                    <span lang="zh">早期練習作品 —— 學習階段的七個小專案</span>
+                </summary>
+                <ul class="earlier-list">
+                    <li><a href="https://nathanc90.github.io/flexbox-arch-company/" target="_blank" rel="noopener">Coca Architect</a> <span class="earlier-tag">CSS layout</span></li>
+                    <li><a href="https://nathanc90.github.io/admin-dashboard/" target="_blank" rel="noopener">Admin Dashboard</a> <span class="earlier-tag">CSS Grid</span></li>
+                    <li><a href="https://nathanc90.github.io/sign-up-form/" target="_blank" rel="noopener">Sign Up Form</a> <span class="earlier-tag">Forms</span></li>
+                    <li><a href="https://nathanc90.github.io/top-calculator/" target="_blank" rel="noopener">Calculator</a> <span class="earlier-tag">JavaScript</span></li>
+                    <li><a href="https://nathanc90.github.io/react-tenzies/" target="_blank" rel="noopener">Tenzies</a> <span class="earlier-tag">React</span></li>
+                    <li><a href="https://nathanc90.github.io/rock-paper-scissors/" target="_blank" rel="noopener">Rock Paper Scissors</a> <span class="earlier-tag">DOM</span></li>
+                    <li><a href="https://nathanc90.github.io/etch-a-sketch/" target="_blank" rel="noopener">Etch-a-Sketch</a> <span class="earlier-tag">DOM</span></li>
+                </ul>
+            </details>
         </section>
 
-        <!-- Expertise Section -->
-        <section id="expertise" class="container section-padding reveal-on-scroll">
-            <div class="grid-2-col">
-                <div class="section-header-sticky">
-                    <h2 class="section-title"><span lang="en">Why work with me?</span><span lang="zh">為什麼選我？</span></h2>
-                    <p class="section-desc"><span lang="en">I bridge the gap between bold, intuitive design and robust engineering.</span><span lang="zh">我致力於在大膽直覺的設計與嚴謹的工程之間，搭起一座紮實的橋樑。</span></p>
-                </div>
-                <div class="expertise-cards">
-                    <div class="expertise-card glass-panel">
-                        <i class="fa-solid fa-code icon-gradient"></i>
-                        <h3><span lang="en">Clean Architecture</span><span lang="zh">整潔的程式架構</span></h3>
-                        <p><span lang="en">I write semantic, maintainable, and modular code that scales as your product grows.</span><span lang="zh">我撰寫語意化、易維護且模組化的程式碼，隨著您的產品一起成長。</span></p>
-                    </div>
-                    <div class="expertise-card glass-panel">
-                        <i class="fa-solid fa-wand-magic-sparkles icon-gradient"></i>
-                        <h3><span lang="en">Pixel-Perfect UI</span><span lang="zh">像素級精準的 UI 呈現</span></h3>
-                        <p><span lang="en">Translating complex designs into responsive, interactive, and accessible user interfaces.</span><span lang="zh">將複雜的設計稿，轉化為響應式、互動良好且無障礙的使用者介面。</span></p>
-                    </div>
-                    <div class="expertise-card glass-panel">
-                        <i class="fa-solid fa-bolt icon-gradient"></i>
-                        <h3><span lang="en">Performance First</span><span lang="zh">效能優先</span></h3>
-                        <p><span lang="en">Optimizing web vitals, minimizing bundle sizes, and achieving buttery smooth 60fps animations.</span><span lang="zh">持續改善 Web Vitals 核心指標，最小化套件體積，實現流暢的 60fps 動畫效果。</span></p>
-                    </div>
-                </div>
+        <!-- ============ PROCESS ============ -->
+        <section id="process" class="shell band reveal">
+            <div class="band-head">
+                <p class="eyebrow"><span lang="en">02 — How it works</span><span lang="zh">02 — 合作方式</span></p>
+                <h2 class="section-title">
+                    <span lang="en">What happens after you email me.</span>
+                    <span lang="zh">來信之後，會發生什麼事。</span>
+                </h2>
             </div>
+
+            <ol class="steps">
+                <li class="step">
+                    <span class="step-num">1</span>
+                    <h3><span lang="en">We talk</span><span lang="zh">先聊聊</span></h3>
+                    <p>
+                        <span lang="en">A call or a few emails, in whichever language you prefer. You tell me
+                            what the business actually needs. If a website is the wrong answer, I will say so.</span>
+                        <span lang="zh">一通電話或幾封信，中英文都可以，看您方便。您說明生意上真正的需求。如果做網站根本解決不了問題，我會直說。</span>
+                    </p>
+                </li>
+                <li class="step">
+                    <span class="step-num">2</span>
+                    <h3><span lang="en">Scope and quote</span><span lang="zh">確認範圍與報價</span></h3>
+                    <p>
+                        <span lang="en">Before any work starts, you get a written list of what is included and
+                            what it costs. If something is out of scope later, we agree on it before I build
+                            it.</span>
+                        <span lang="zh">動工之前，先給您一份書面清單：做哪些、多少錢，寫清楚。後續如果有超出範圍的項目，一定先講好再動手。</span>
+                    </p>
+                </li>
+                <li class="step">
+                    <span class="step-num">3</span>
+                    <h3><span lang="en">Build in the open</span><span lang="zh">開發過程公開</span></h3>
+                    <p>
+                        <span lang="en">You get a link from day one. Open it on your phone, send it to your
+                            staff, tell me what is wrong while it is still cheap to change.</span>
+                        <span lang="zh">第一天就給您一組連結。手機打開、轉傳給同仁都行。有問題趁早講，那時候要改還很便宜。</span>
+                    </p>
+                </li>
+                <li class="step">
+                    <span class="step-num">4</span>
+                    <h3><span lang="en">Handover</span><span lang="zh">交付上線</span></h3>
+                    <p>
+                        <span lang="en">It goes live on your own domain. You get the code and a short plain guide
+                            for changing your own text, so you are never stuck waiting on me for a typo.</span>
+                        <span lang="zh">上線到您自己的網域。程式碼交給您，另外附一份白話的說明，教您自己改文字，以後打錯一個字不用還要等我。</span>
+                    </p>
+                </li>
+            </ol>
         </section>
 
-        <!-- Work / Projects Section -->
-        <section id="work" class="container section-padding reveal-on-scroll">
-            <div class="section-header center">
-                <h2 class="section-title"><span lang="en">Selected Work</span><span lang="zh">精選作品</span></h2>
-                <p class="section-desc"><span lang="en">A showcase of scalable applications and interactive UI components.</span><span lang="zh">展示一系列可擴展的應用程式與互動式介面。</span></p>
+        <!-- ============ APPROACH ============ -->
+        <section id="approach" class="shell band reveal">
+            <div class="band-head">
+                <p class="eyebrow"><span lang="en">03 — Approach</span><span lang="zh">03 — 我的作法</span></p>
+                <h2 class="section-title">
+                    <span lang="en">Four things I refuse to cut corners on.</span>
+                    <span lang="zh">四件我不會偷工減料的事。</span>
+                </h2>
             </div>
 
-            <div class="projects-grid">
-                <!-- CineScope -->
-                <div class="project-card glass-panel">
-                    <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-cinescope.jpg"
-                            alt="CineScope movie discovery app showing a dark responsive grid of film cards with ratings">
-                        <div class="project-overlay">
-                            <a href="https://nathanc90.github.io/cinescope/" target="_blank" class="btn-icon"
-                                aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/NathanC90/cinescope" target="_blank" class="btn-icon"
-                                aria-label="View Code"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="tags"><span class="tag">React</span><span class="tag">TypeScript</span></div>
-                        <h3><span lang="en">CineScope</span><span lang="zh">CineScope 電影探索</span></h3>
-                        <p><span lang="en">A movie discovery app in React and TypeScript, with shareable deep-linked routes, search that cancels stale requests, a persistent watchlist, and accessible light and dark themes.</span><span lang="zh">以 React 與 TypeScript 打造的電影探索應用，具備可分享的路由深層連結、會自動取消過期請求的搜尋、可保存的待看清單，以及兼顧無障礙的深淺色主題。</span></p>
-                    </div>
-                </div>
-                <!-- Evergreen Dental -->
-                <div class="project-card glass-panel">
-                    <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-evergreen-dental.jpg"
-                            alt="Evergreen Dental clinic homepage with a serif headline and a booking panel showing available appointment times">
-                        <div class="project-overlay">
-                            <a href="https://nathanc90.github.io/evergreen-dental/" target="_blank" class="btn-icon"
-                                aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/NathanC90/evergreen-dental" target="_blank" class="btn-icon"
-                                aria-label="View Code"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="tags"><span class="tag">Booking Flow</span><span class="tag">Bilingual</span></div>
-                        <h3><span lang="en">Evergreen Dental</span><span lang="zh">常青牙醫診所</span></h3>
-                        <p><span lang="en">A demonstration clinic site built around a four-step booking flow, with validation on every step, a clickable error summary, and real loading, success and failure states. Bilingual, and no framework.</span><span lang="zh">示範用的診所網站，核心是四步驟線上預約流程：逐步驗證、可點選的錯誤總覽，以及完整的載入、成功與失敗狀態。中英雙語，未使用任何框架。</span></p>
-                    </div>
-                </div>
-                <!-- Echoloop -->
-                <div class="project-card glass-panel">
-                    <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-echoloop.jpg"
-                            alt="Echoloop language trainer showing a lesson with four practice stages, a play button and an audio scrub bar">
-                        <div class="project-overlay">
-                            <a href="https://nathanc90.github.io/echoloop/" target="_blank" class="btn-icon"
-                                aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/NathanC90/echoloop" target="_blank" class="btn-icon"
-                                aria-label="View Code"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="tags"><span class="tag">React</span><span class="tag">Audio &amp; Speech</span></div>
-                        <h3><span lang="en">Echoloop</span><span lang="zh">Echoloop 語言跟讀訓練</span></h3>
-                        <p><span lang="en">A listening and shadowing trainer for eight languages. It records you speaking, scores how clearly each word came through using the browser's own speech recognition, and remembers the lines you struggled with. Works offline, with no accounts and no server.</span><span lang="zh">支援八種語言的聽力與跟讀練習工具。錄下發音後，由瀏覽器內建的語音辨識判斷每個字是否清晰，發音不夠清楚的句子將自動納入複習清單。無需註冊帳號，亦不依賴後端服務，離線即可使用。</span></p>
-                    </div>
-                </div>
-                <!-- Movies Watchlist -->
-                <div class="project-card glass-panel">
-                    <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-movies-watchlist.jpg"
-                            alt="Movie search app displaying a grid of film posters returned from the OMDb API">
-                        <div class="project-overlay">
-                            <a href="https://nathanc90.github.io/movies-watchlist/" target="_blank" class="btn-icon"
-                                aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/NathanC90/movies-watchlist" target="_blank" class="btn-icon"
-                                aria-label="View Code"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="tags"><span class="tag">API</span><span class="tag">Async JS</span></div>
-                        <h3><span lang="en">Movies Watchlist</span><span lang="zh">電影待看清單</span></h3>
-                        <p><span lang="en">A movie search app powered by the OMDb API, with async data fetching, a localStorage-backed watchlist, detail modals, and persistent dark mode.</span><span lang="zh">以 OMDb API 打造的電影搜尋應用，具備非同步資料抓取、localStorage 待看清單、詳細資訊彈窗與可記憶的深色模式。</span></p>
-                    </div>
-                </div>
-                <!-- Architect Company -->
-                <div class="project-card glass-panel">
-                    <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/coca-architect.jpg"
-                            alt="Minimalist architectural firm landing page featuring clean typography and geometric layouts">
-                        <div class="project-overlay">
-                            <a href="https://nathanc90.github.io/flexbox-arch-company/" target="_blank" class="btn-icon"
-                                aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/NathanC90/flexbox-arch-company" target="_blank" class="btn-icon"
-                                aria-label="View Code"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="tags"><span class="tag">Landing Page</span><span class="tag">Responsive</span></div>
-                        <h3><span lang="en">Coca Architect</span><span lang="zh">Coca 建築設計事務所</span></h3>
-                        <p><span lang="en">A sleek, professional landing page built to demonstrate modern layout techniques and brand aesthetics.</span><span lang="zh">一個流線專業的落地頁，展示現代網頁排版技術與品牌視覺美學。</span></p>
-                    </div>
-                </div>
-                <!-- Admin Dashboard -->
-                <div class="project-card glass-panel">
-                    <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-admin-dashboard.jpg"
-                            alt="Screenshot of a modern administrative dashboard with data visualizations and sidebar navigation">
-                        <div class="project-overlay">
-                            <a href="https://nathanc90.github.io/admin-dashboard/" target="_blank" class="btn-icon"
-                                aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/NathanC90/admin-dashboard" target="_blank" class="btn-icon"
-                                aria-label="View Code"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="tags"><span class="tag">Dashboard</span><span class="tag">CSS Grid</span></div>
-                        <h3><span lang="en">Admin Dashboard</span><span lang="zh">後台管理面板</span></h3>
-                        <p><span lang="en">A responsive administrative layout utilizing complex CSS Grid architectures and Flexbox positioning.</span><span lang="zh">運用複雜的 CSS Grid 排版與 Flexbox 對齊技術，打造的響應式後台管理介面。</span></p>
-                    </div>
-                </div>
-                <!-- Sign up Form -->
-                <div class="project-card glass-panel">
-                    <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-sign-up-form.jpg"
-                            alt="User registration form with custom validation and focused input states">
-                        <div class="project-overlay">
-                            <a href="https://nathanc90.github.io/sign-up-form/" target="_blank" class="btn-icon"
-                                aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/NathanC90/sign-up-form" target="_blank" class="btn-icon"
-                                aria-label="View Code"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="tags"><span class="tag">Forms</span><span class="tag">Validation</span></div>
-                        <h3><span lang="en">Sign Up Form</span><span lang="zh">會員註冊表單</span></h3>
-                        <p><span lang="en">A meticulous user registration flow with custom client-side validation and focused visual feedback.</span><span lang="zh">設計細致的會員註冊流程，含自訂用戶端驗證與清晰直覺的視覺回饋。</span></p>
-                    </div>
-                </div>
-                <!-- Calculator -->
-                <div class="project-card glass-panel">
-                    <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-calculator.jpg"
-                            alt="Interactive web calculator with a glassmorphism design and mathematical logic">
-                        <div class="project-overlay">
-                            <a href="https://nathanc90.github.io/top-calculator/" target="_blank" class="btn-icon"
-                                aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/NathanC90/top-calculator" target="_blank" class="btn-icon"
-                                aria-label="View Code"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="tags"><span class="tag">Logic</span><span class="tag">JavaScript</span></div>
-                        <h3><span lang="en">Interactive Calculator</span><span lang="zh">互動式計算機</span></h3>
-                        <p><span lang="en">A fully functional web calculator featuring robust mathematical logic and error handling.</span><span lang="zh">功能完整的網頁計算機，具備縝密的數學運算邏輯與錯誤處理機制。</span></p>
-                    </div>
-                </div>
-                <!-- Tenzies -->
-                <div class="project-card glass-panel">
-                    <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-tenzies.jpg"
-                            alt="Tenzies dice game built with React, showing a grid of ten dice and a roll button">
-                        <div class="project-overlay">
-                            <a href="https://nathanc90.github.io/react-tenzies/" target="_blank" class="btn-icon"
-                                aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/NathanC90/react-tenzies" target="_blank" class="btn-icon"
-                                aria-label="View Code"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="tags"><span class="tag">React</span><span class="tag">Hooks</span></div>
-                        <h3><span lang="en">Tenzies</span><span lang="zh">骰子遊戲</span></h3>
-                        <p><span lang="en">A dice-rolling game built with React, using component state and hooks to manage rolling, holding, and win detection.</span><span lang="zh">以 React 打造的骰子遊戲，運用元件狀態與 Hooks 管理擲骰、鎖定與勝利判斷邏輯。</span></p>
-                    </div>
-                </div>
-                <!-- Rock Paper Scissors -->
-                <div class="project-card glass-panel">
-                    <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-rps.jpg" alt="Interactive Rock Paper Scissors game interface with score tracking">
-                        <div class="project-overlay">
-                            <a href="https://nathanc90.github.io/rock-paper-scissors/" target="_blank" class="btn-icon"
-                                aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/NathanC90/rock-paper-scissors" target="_blank" class="btn-icon"
-                                aria-label="View Code"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="tags"><span class="tag">Game</span><span class="tag">State</span></div>
-                        <h3><span lang="en">Rock Paper Scissors</span><span lang="zh">猜拳遊戲</span></h3>
-                        <p><span lang="en">A classic interactive game built to highlight core JavaScript logic loops and UI updates.</span><span lang="zh">經典的猜拳遊戲，用來展示 JavaScript 核心邏輯迴圈與狀態管理的精髓。</span></p>
-                    </div>
-                </div>
-                <!-- Etch-a-Sketch -->
-                <div class="project-card glass-panel">
-                    <div class="project-img-wrapper">
-                        <img loading="lazy" class="project-image" src="./images/top-etch-a-sketch.jpg"
-                            alt="Browser-based sketching tool showing a grid-based drawing area">
-                        <div class="project-overlay">
-                            <a href="https://nathanc90.github.io/etch-a-sketch/" target="_blank" class="btn-icon"
-                                aria-label="View Live"><i class="fa-solid fa-arrow-up-right-from-square"></i></a>
-                            <a href="https://github.com/NathanC90/etch-a-sketch" target="_blank" class="btn-icon"
-                                aria-label="View Code"><i class="fa-brands fa-github"></i></a>
-                        </div>
-                    </div>
-                    <div class="project-info">
-                        <div class="tags"><span class="tag">DOM Manipulation</span></div>
-                        <h3><span lang="en">Etch-a-Sketch</span><span lang="zh">創意塗鴉板</span></h3>
-                        <p><span lang="en">A dynamic browser-based sketching tool demonstrating intense DOM manipulation and event listeners.</span><span lang="zh">一個基於瀏覽器的動態小畫板，展示了大量的 DOM 操作與事件監聽處理。</span></p>
-                    </div>
-                </div>
+            <div class="approach-grid">
+                <article class="approach">
+                    <h3><span lang="en">Customers can find you</span><span lang="zh">客人找得到你</span></h3>
+                    <p>
+                        <span lang="en">Proper page titles, structured data for Google, and link previews that
+                            look right when someone shares you on LINE or Facebook. A beautiful site nobody
+                            finds is a expensive business card.</span>
+                        <span lang="zh">頁面標題寫好、加上 Google 讀得懂的結構化資料，別人在 LINE
+                            或臉書分享時，預覽圖也是正常的。網站做得再漂亮，沒人找得到，就只是一張很貴的名片。</span>
+                    </p>
+                </article>
+                <article class="approach">
+                    <h3><span lang="en">It works on a phone</span><span lang="zh">手機上就是好用</span></h3>
+                    <p>
+                        <span lang="en">Most of your customers arrive on a phone, on mobile data, in a hurry. I
+                            build for that first and let the desktop version follow.</span>
+                        <span lang="zh">您的客人大多是用手機、開行動網路、而且很趕。我一律先做手機版，桌機版跟著調整。</span>
+                    </p>
+                </article>
+                <article class="approach">
+                    <h3><span lang="en">Two languages, done properly</span><span lang="zh">中英雙語，做到位</span></h3>
+                    <p>
+                        <span lang="en">Not machine translation poured into an English layout. Each language gets
+                            its own typeface, line length and rhythm — which is exactly what the switch at the
+                            top of this page is demonstrating.</span>
+                        <span lang="zh">不是把機器翻譯倒進英文版型就交差。兩種語言各有各的字體、行寬與節奏 ——
+                            這一頁最上面那顆語言切換，示範的就是這件事。</span>
+                    </p>
+                </article>
+                <article class="approach">
+                    <h3><span lang="en">You are not locked in</span><span lang="zh">不會被我綁住</span></h3>
+                    <p>
+                        <span lang="en">Plain, readable code that any developer can pick up, hosted wherever you
+                            like. You own the result outright. If you stop working with me, nothing breaks.</span>
+                        <span lang="zh">程式碼寫得清楚易讀，換誰接手都看得懂，主機想放哪裡都可以。成果完全屬於您。就算哪天不跟我合作了，網站也不會因此出事。</span>
+                    </p>
+                </article>
             </div>
+
+            <p class="stack-line">
+                <span lang="en">Built with HTML, CSS, JavaScript, TypeScript and React — chosen per job, not by
+                    habit.</span>
+                <span lang="zh">慣用 HTML、CSS、JavaScript、TypeScript 與 React ——
+                    依案子需求選用，不是習慣性套上去。</span>
+            </p>
         </section>
 
-        <!-- Core Stack Section -->
-        <section id="stack" class="container section-padding reveal-on-scroll">
-            <div class="section-header center">
-                <h2 class="section-title"><span lang="en">Core Stack</span><span lang="zh">核心技術棧</span></h2>
-                <p class="section-desc"><span lang="en">Technologies I leverage to bring visions to life.</span><span lang="zh">以下是我所使用的專業技術工具。</span></p>
-            </div>
-            <div class="tech-grid glass-panel">
-                <div class="tech-icon"><i class="fa-brands fa-html5"></i><span>HTML5</span></div>
-                <div class="tech-icon"><i class="fa-brands fa-css3-alt"></i><span>CSS3</span></div>
-                <div class="tech-icon"><i class="fa-brands fa-js"></i><span>JavaScript</span></div>
-                <div class="tech-icon"><i class="fa-brands fa-react"></i><span>React</span></div>
-                <div class="tech-icon"><i class="fa-brands fa-node"></i><span>Node.js</span></div>
-                <div class="tech-icon"><i class="fa-brands fa-npm"></i><span>NPM</span></div>
-                <div class="tech-icon"><i class="fa-brands fa-git"></i><span>Git</span></div>
-                <div class="tech-icon"><i class="fa-brands fa-github"></i><span>GitHub</span></div>
-            </div>
-        </section>
+        <!-- ============ CONTACT ============ -->
+        <section id="contact" class="shell band reveal">
+            <div class="contact-wrap">
+                <div class="contact-pitch">
+                    <p class="eyebrow"><span lang="en">04 — Start a project</span><span lang="zh">04 — 開始洽談</span></p>
+                    <h2 class="section-title">
+                        <span lang="en">Tell me what your business needs.</span>
+                        <span lang="zh">說說您的生意需要什麼。</span>
+                    </h2>
+                    <p class="section-note">
+                        <span lang="en">Write in English or 中文, whichever is easier. A rough idea is enough to
+                            start with — you do not need to know what you want built yet. I reply to everything
+                            within two working days.</span>
+                        <span lang="zh">中英文都可以，哪個順手就用哪個。只有一個粗略的想法也沒關係，不必事先想好要做什麼。所有來信我都會在兩個工作天內回覆。</span>
+                    </p>
+                    <p class="contact-direct">
+                        <a href="mailto:ymnchao@gmail.com">ymnchao@gmail.com</a><br>
+                        <a href="https://github.com/NathanC90" target="_blank" rel="noopener">github.com/NathanC90</a>
+                    </p>
+                </div>
 
-        <!-- CTA / Contact Section -->
-        <section id="contact" class="container section-padding reveal-on-scroll">
-            <div class="cta-banner glass-panel">
-                <h2 class="section-title"><span lang="en">Let's build something incredible.</span><span lang="zh">攜手合作，打造出色作品。</span></h2>
-                <p><span lang="en">I'm currently accepting new freelance projects. If you're looking for a reliable partner to elevate your digital presence, I'd love to chat.</span><span lang="zh">我目前開放自由接案。如果您正在尋找可靠的協作夥伴，一起提升您的數位化形象，歡迎隨時與我聯絡洽談。</span></p>
                 <form id="contact-form" action="https://formspree.io/f/xqegywjg" method="POST" class="contact-form">
-                    <div class="form-group-row">
-                        <div class="form-group">
-                            <label for="name">
-                                <span lang="en">Full Name</span><span lang="zh">姓名</span>
-                            </label>
-                            <input type="text" id="name" name="name" required 
-                                   placeholder="Nathan Chao" 
-                                   data-en="Nathan Chao" 
-                                   data-zh="您的姓名"
-                                   aria-label="Full Name">
-                        </div>
-                        <div class="form-group">
-                            <label for="email">
-                                <span lang="en">Email Address</span><span lang="zh">電子郵件</span>
-                            </label>
-                            <input type="email" id="email" name="email" required placeholder="contact@example.com"
-                                   aria-label="Email Address">
-                        </div>
+                    <div class="field-row">
+                        <p class="field">
+                            <label for="name"><span lang="en">Your name</span><span lang="zh">姓名</span></label>
+                            <input type="text" id="name" name="name" required data-en="Nathan Chao" data-zh="您的姓名">
+                        </p>
+                        <p class="field">
+                            <label for="email"><span lang="en">Email</span><span lang="zh">電子郵件</span></label>
+                            <input type="email" id="email" name="email" required data-en="you@example.com" data-zh="you@example.com">
+                        </p>
                     </div>
-                    
-                    <div class="form-group">
-                        <label for="subject">
-                            <span lang="en">Subject (Optional)</span><span lang="zh">主旨 (選填)</span>
-                        </label>
-                        <input type="text" id="subject" name="subject" 
-                               placeholder="Project Inquiry"
-                               data-en="Project Inquiry"
-                               data-zh="合作洽談"
-                               aria-label="Subject">
-                    </div>
+                    <p class="field">
+                        <label for="subject"><span lang="en">Your business</span><span lang="zh">您的行業或店名</span></label>
+                        <input type="text" id="subject" name="subject" data-en="Dental clinic in Taipei" data-zh="例如：台北的牙醫診所">
+                    </p>
+                    <p class="field">
+                        <label for="message"><span lang="en">What do you need?</span><span lang="zh">您的需求</span></label>
+                        <textarea id="message" name="message" required rows="6"
+                            data-en="We take bookings by phone and keep missing calls…"
+                            data-zh="我們目前都用電話接預約，常常漏接……"></textarea>
+                    </p>
 
-                    <div class="form-group">
-                        <label for="message">
-                            <span lang="en">Your Message</span><span lang="zh">您的留言</span>
-                        </label>
-                        <textarea id="message" name="message" required rows="5" 
-                                  placeholder="Hi Nathan, let's talk about..."
-                                  data-en="Hi Nathan, let's talk about..."
-                                  data-zh="嘿 Nathan，我想洽談..."
-                                  aria-label="Your Message"></textarea>
-                    </div>
+                    <!-- Honeypot -->
+                    <input type="text" name="_gotcha" tabindex="-1" autocomplete="off" class="gotcha" aria-hidden="true">
 
-                    <!-- Honeypot field for spam prevention -->
-                    <input type="text" name="_gotcha" style="display:none">
-
-                    <button type="submit" id="contact-submit" class="btn btn-primary w-100">
-                        <span class="btn-text">
-                            <span lang="en">Send Message</span><span lang="zh">傳送訊息</span>
-                        </span>
-                        <i class="fa-solid fa-paper-plane"></i>
+                    <button type="submit" id="contact-submit" class="btn btn-solid btn-block">
+                        <span class="btn-text"><span lang="en">Send message</span><span lang="zh">送出訊息</span></span>
                     </button>
 
-                    <div id="contact-status" class="contact-status"></div>
+                    <p id="contact-status" class="contact-status" role="status" aria-live="polite"></p>
                 </form>
             </div>
         </section>
     </main>
 
-    <footer class="glass-footer">
-        <div class="container footer-content">
-            <p class="copyright"><span lang="en">Designed &amp; Engineered by</span><span lang="zh">設計與開發：</span> <strong>Nathan Chao</strong></p>
-            <p class="tagline"><span lang="en">Shipped with</span><span lang="zh">用心打造，用愛發布</span> <i class="fa-solid fa-fire accent"></i>.</p>
+    <footer class="footer">
+        <div class="shell footer-inner">
+            <p class="footer-name">Nathan Chao</p>
+            <p class="footer-note">
+                <span lang="en">Designed and built by hand, in Taiwan. This page uses no framework and no
+                    tracking.</span>
+                <span lang="zh">在台灣，一行一行手寫完成。這一頁沒有用任何框架，也沒有任何追蹤程式。</span>
+            </p>
+            <p class="footer-links">
+                <a href="mailto:ymnchao@gmail.com">Email</a>
+                <a href="https://github.com/NathanC90" target="_blank" rel="noopener">GitHub</a>
+                <a href="#top"><span lang="en">Back to top</span><span lang="zh">回到頂端</span></a>
+            </p>
         </div>
     </footer>
 
-    <!-- Interactive Scripts -->
-    <script>
-        // Theme Toggle Logic
-        const themeBtn = document.getElementById('theme-btn');
-        const html = document.documentElement;
-        
-        // Initial Theme Load: default dark, check localStorage
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        if (savedTheme === 'light') {
-            html.classList.add('light');
-            themeBtn.innerHTML = '<i class="fa-solid fa-sun"></i>';
-            document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f8fafc');
-        }
-
-        themeBtn.addEventListener('click', () => {
-            const isLight = html.classList.toggle('light');
-            const theme = isLight ? 'light' : 'dark';
-            localStorage.setItem('theme', theme);
-            
-            // Icon transition
-            themeBtn.innerHTML = isLight ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
-            
-            // Meta theme-color update for status bar on mobile
-            document.querySelector('meta[name="theme-color"]').setAttribute('content', isLight ? '#f8fafc' : '#070b14');
-        });
-
-        // Language Toggle Logic
-        const langBtn = document.getElementById('lang-btn');
-        const titleEn = "Nathan Chao | Passionate Frontend Builder";
-        const titleZh = "Nathan Chao | 前端工程師";
-
-        // Initial Language Load
-        const savedLang = localStorage.getItem('lang') || 'en';
-        
-        function updatePlaceholders(isZh) {
-            document.querySelectorAll('[data-en][data-zh]').forEach(el => {
-                el.placeholder = isZh ? el.getAttribute('data-zh') : el.getAttribute('data-en');
-            });
-        }
-
-        if (savedLang === 'zh') {
-            document.body.classList.add('lang-zh');
-            document.title = titleZh;
-            updatePlaceholders(true);
-        }
-
-        langBtn.addEventListener('click', () => {
-            const isZh = document.body.classList.toggle('lang-zh');
-            document.title = isZh ? titleZh : titleEn;
-            localStorage.setItem('lang', isZh ? 'zh' : 'en');
-            updatePlaceholders(isZh);
-        });
-
-        // Smooth scroll for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Mobile Menu Toggle
-        const mobileBtn = document.querySelector('.mobile-menu-btn');
-        const navLinks = document.querySelector('.nav-links');
-        // Formspree AJAX Logic
-        const form = document.getElementById("contact-form");
-        const status = document.getElementById("contact-status");
-        const submitBtn = document.getElementById("contact-submit");
-        const btnText = submitBtn.querySelector(".btn-text");
-
-        const statusMsgs = {
-            en: {
-                success: "Thanks! Your message has been sent.",
-                error: "Oops! There was a problem submitting your form.",
-                sending: "Sending..."
-            },
-            zh: {
-                success: "感謝！您的留言已送出。",
-                error: "糟糕！提交表單時發生問題。",
-                sending: "傳送中..."
-            }
-        };
-
-        async function handleSubmit(event) {
-            event.preventDefault();
-            const currentLang = document.body.classList.contains('lang-zh') ? 'zh' : 'en';
-            
-            status.style.display = "none";
-            status.className = "contact-status";
-            btnText.querySelector(`span[lang="${currentLang}"]`).textContent = statusMsgs[currentLang].sending;
-            submitBtn.disabled = true;
-
-            const data = new FormData(event.target);
-            
-            try {
-                const response = await fetch(event.target.action, {
-                    method: form.method,
-                    body: data,
-                    headers: {
-                        'Accept': 'application/json'
-                    }
-                });
-
-                if (response.ok) {
-                    status.textContent = statusMsgs[currentLang].success;
-                    status.classList.add("success");
-                    form.reset();
-                } else {
-                    const errorData = await response.json();
-                    if (Object.hasOwn(errorData, 'errors')) {
-                        status.textContent = errorData["errors"].map(error => error["message"]).join(", ");
-                    } else {
-                        status.textContent = statusMsgs[currentLang].error;
-                    }
-                    status.classList.add("error");
-                }
-            } catch (error) {
-                status.textContent = statusMsgs[currentLang].error;
-                status.classList.add("error");
-            } finally {
-                submitBtn.disabled = false;
-                btnText.querySelector(`span[lang="en"]`).textContent = "Send Message";
-                btnText.querySelector(`span[lang="zh"]`).textContent = "傳送訊息";
-                status.style.display = "block";
-            }
-        }
-        
-        form.addEventListener("submit", handleSubmit);
-
-        // Mobile Menu Toggle
-        mobileBtn.addEventListener('click', () => {
-            navLinks.classList.toggle('active');
-        });
-
-        // Close mobile menu when a link is clicked
-        document.querySelectorAll('.nav-links a').forEach(link => {
-            link.addEventListener('click', () => {
-                navLinks.classList.remove('active');
-            });
-        });
-
-        // Sticky Navbar effect
-        const navbar = document.getElementById('navbar');
-        window.addEventListener('scroll', () => {
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.add('scrolled');
-                if (window.scrollY <= 50) navbar.classList.remove('scrolled');
-            }
-        });
-
-        // Intersection Observer for scroll animations (fade in)
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: "0px 0px -50px 0px"
-        };
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('visible');
-                    observer.unobserve(entry.target);
-                }
-            });
-        }, observerOptions);
-
-        document.querySelectorAll('.reveal-on-scroll').forEach(section => {
-            observer.observe(section);
-        });
-    </script>
+    <script src="main.js"></script>
 </body>
+
 </html>

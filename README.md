@@ -1,9 +1,41 @@
-# NathanC90.github.io
+# nathanc90.github.io
 
-My first portfolio project from Codecademy
+My portfolio — bilingual (繁體中文 / English) websites for local businesses.
 
-I have made it responsive. However, it's not yet interactive.
+**Live:** https://nathanc90.github.io/
 
-I will create a light/dark mode button to change the styles as soon as possible.
+## What it is
 
-Live demo: [here](https://nathanc90.github.io/)
+A single static page. No framework, no build step, no dependencies, no tracking:
+`index.html`, `styles.css`, `main.js`.
+
+The language switch is the point of the design rather than a convenience. Flipping
+it swaps the whole type system — Fraunces/Inter for Latin, Noto Serif TC/Noto Sans TC
+for Chinese — along with the tracking, leading and display weights each script needs.
+Both languages are written, not machine-translated.
+
+## Notes for future me
+
+- The CJK webfonts are ~2MB and load **on demand**, the first time someone asks for
+  Chinese (`loadCjkFonts()` in `main.js`). Do not move them into the `<head>`.
+- Language and theme are applied by a small script in the `<head>`, before first
+  paint, so a returning visitor never sees the wrong one flash. That is also why the
+  bilingual CSS rules are keyed on `:root` and not on `body` — the body does not
+  exist yet when that script runs.
+- Never set `display` on an element that also carries a `[lang]` attribute; it beats
+  the visibility rules and both languages render at once. `selfcheck.js` enforces this.
+- `.reveal` is gated behind `:root.js` so the page is not blank with JavaScript off.
+- Each case study can pull the real deployed site into the page in an iframe, built
+  on first click. This works because GitHub Pages sends no `X-Frame-Options` or
+  `Content-Security-Policy` header — if that ever changes, the embeds go blank and
+  the "Open full site" links become the only route.
+
+## Check
+
+```
+node selfcheck.js
+```
+
+Verifies every English string has a Chinese counterpart in the right order, that no
+class on a `[lang]` element sets `display`, that placeholder pairs travel together,
+and that every in-page link resolves.
