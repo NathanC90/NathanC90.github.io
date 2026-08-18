@@ -376,16 +376,63 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 
 .form { background: var(--surface); border: 1px solid var(--line); border-radius: 16px; padding: clamp(1.4rem, 3vw, 2rem); }
 .field-row { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr)); }
-.field { margin-bottom: 1.15rem; }
-.field label { display: block; margin-bottom: 0.45rem; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-3); }
+.field { margin-bottom: 1.15rem; position: relative; }
+.field label {
+    display: block; margin-bottom: 0.45rem;
+    font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--text-3);
+    transition: color 0.25s var(--ease), transform 0.25s var(--ease);
+    transform-origin: left center;
+}
 :root.zh .field label { font-family: var(--font); letter-spacing: 0.06em; }
+
+/* The label wakes up with its field. */
+.field:focus-within label { color: var(--brand); transform: translateX(3px); }
+
+/* A gradient rule draws along the bottom edge on focus. Painted on the
+   wrapper rather than the input's own border, so it can sweep from the
+   left instead of just switching colour. */
+.field::after {
+    content: ''; position: absolute; left: 0; bottom: 0; height: 2px; width: 100%;
+    background: var(--grad); border-radius: 0 0 9px 9px;
+    transform: scaleX(0); transform-origin: left center;
+    transition: transform 0.4s var(--ease);
+    pointer-events: none;
+}
+.field:focus-within::after { transform: scaleX(1); }
 .field input, .field textarea {
     width: 100%; padding: 0.78rem 0.9rem; font-family: inherit; font-size: 0.94rem; color: var(--text);
     background: var(--bg); border: 1px solid var(--line); border-radius: 9px;
     transition: border-color 0.2s var(--ease), box-shadow 0.2s var(--ease);
 }
-.field input:focus, .field textarea:focus { outline: none; border-color: var(--brand); box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 20%, transparent); }
+.field input:focus, .field textarea:focus {
+    outline: none; border-color: var(--brand);
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--brand) 20%, transparent);
+    transform: translateY(-1px);
+}
 .field textarea { resize: vertical; line-height: 1.6; }
+
+/* Room on the right for the tick, so typed text never runs under it. */
+.field input { padding-right: 2.5rem; }
+
+/* A tick springs in once the field holds something actually valid.
+   :user-valid only applies after the visitor has interacted, so an
+   untouched form is never pre-decorated with approval it has not earned. */
+@supports selector(:user-valid) {
+    .field::before {
+        content: ''; position: absolute; right: 1rem; bottom: 1.05rem;
+        width: 13px; height: 7px;
+        border-left: 2px solid var(--brand-3);
+        border-bottom: 2px solid var(--brand-3);
+        opacity: 0; transform: rotate(-45deg) scale(0.4);
+        transition: opacity 0.2s var(--ease),
+                    transform 0.4s cubic-bezier(0.16, 1.9, 0.4, 1);
+        pointer-events: none;
+    }
+    .field:has(input:user-valid)::before { opacity: 1; transform: rotate(-45deg) scale(1); }
+    .field:has(input:user-invalid) input { border-color: #f87171; }
+    .field:has(input:user-invalid)::after { background: #f87171; }
+}
 .gotcha { position: absolute; left: -9999px; }
 .form-status { margin-top: 1rem; font-size: 0.86rem; display: none; padding: 0.75rem 1rem; border-radius: 9px; background: var(--surface-2); }
 .form-status.shown { display: block; }
