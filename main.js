@@ -262,6 +262,18 @@
             entries.forEach(function (e) { if (e.isIntersecting) mark(e.target.dataset.stage); });
         }, { rootMargin: '-35% 0px -55% 0px' });
         stages.forEach(function (s) { io.observe(s); });
+
+        /* Separate, looser observer for the mockups. The rail's band is a
+           narrow strip in the middle of the viewport — right for "which
+           stage am I on", far too late to start a mockup's animation. */
+        var play = new IntersectionObserver(function (entries, obs) {
+            entries.forEach(function (e) {
+                if (!e.isIntersecting) return;
+                e.target.classList.add('playing');
+                obs.unobserve(e.target);
+            });
+        }, { threshold: 0.25 });
+        stages.forEach(function (s) { play.observe(s); });
     }
 
     /* ================= boop ================= */
