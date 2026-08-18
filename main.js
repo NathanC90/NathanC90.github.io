@@ -1,177 +1,284 @@
 /* Nathan Chao — portfolio behaviour.
-   No framework, no dependencies. Everything degrades: with JS off you get
-   the English page, all content visible, every <details> still opens. */
+   One vendored dependency (Lenis, 13KB) for scroll feel. The hero is raw
+   WebGL: a single fragment shader, no 3D library. Everything degrades —
+   with JS off you get the English page, all content visible and readable. */
 (function () {
     'use strict';
 
     var root = document.documentElement;
+    var reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-    /* ---------- language ----------------------------------------------
-       The switch does three things: flips the visible language, swaps the
-       type stack (CSS, via :root.zh), and pulls the CJK webfonts down —
-       but only the first time someone actually asks for Chinese, so the
-       ~2MB of Noto TC never lands on a visitor who reads English. */
+    /* ================= smooth scroll ================= */
+    var lenis = null;
+    if (window.Lenis && !reduced) {
+        lenis = new window.Lenis({ duration: 1.05, smoothWheel: true });
+        (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(0);
 
-    var TITLES = {
-        en: 'Nathan Chao | Bilingual websites for local businesses',
-        zh: 'Nathan Chao | 為在地商家打造中英雙語網站'
-    };
-    var CJK_HREF = 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500&family=Noto+Serif+TC:wght@600;700&display=swap';
-    var cjkLoaded = false;
+        /* Lenis owns the scroll position: it writes its own value back every
+           frame, so anything using window.scrollTo — a hash link on load, a
+           "back to top", devtools, some assistive tooling — gets silently
+           reverted. Exposing the instance and honouring hashes ourselves is
+           the cost of smooth scrolling. */
+        window.__lenis = lenis;
 
-    function loadCjkFonts() {
-        if (cjkLoaded) return;
-        cjkLoaded = true;
-        var link = document.createElement('link');
-        link.rel = 'stylesheet';
-        link.href = CJK_HREF;
-        document.head.appendChild(link);
+        addEventListener('hashchange', function () {
+            var el = location.hash && document.querySelector(location.hash);
+            if (el) lenis.scrollTo(el, { offset: -80 });
+        });
+
+        if (location.hash) {
+            var initial = document.querySelector(location.hash);
+            if (initial) requestAnimationFrame(function () {
+                lenis.scrollTo(initial, { offset: -80, immediate: true });
+            });
+        }
     }
 
-    function setLang(lang, animate) {
-        var isZh = lang === 'zh';
-        if (isZh) loadCjkFonts();
+    function goTo(target) {
+        if (lenis) lenis.scrollTo(target, { offset: -80 });
+        else target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
+    }
 
+    document.querySelectorAll('a[href^="#"]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+            var el = document.querySelector(a.getAttribute('href'));
+            if (!el) return;
+            e.preventDefault();
+            goTo(el);
+        });
+    });
+
+    /* ================= hero shader =================
+       A domain-warped fbm field cut by angular bands. Three.js would be
+       ~600KB to draw one full-screen quad; this is the quad. */
+    (function hero() {
+        var canvas = document.getElementById('gl');
+        if (!canvas || reduced) return;
+
+        var gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'low-power' });
+        if (!gl) { canvas.style.display = 'none'; return; }
+
+        var VERT = [
+            'attribute vec2 a;',
+            'void main(){ gl_Position = vec4(a, 0.0, 1.0); }'
+        ].join('\n');
+
+        var FRAG = [
+            'precision highp float;',
+            'uniform vec2 u_res; uniform float u_time; uniform float u_light;',
+            'float hash(vec2 p){ return fract(sin(dot(p, vec2(127.1,311.7)))*43758.5453); }',
+            'float noise(vec2 p){',
+            '  vec2 i=floor(p), f=fract(p);',
+            '  vec2 u=f*f*(3.0-2.0*f);',
+            '  return mix(mix(hash(i),hash(i+vec2(1.0,0.0)),u.x),',
+            '             mix(hash(i+vec2(0.0,1.0)),hash(i+vec2(1.0,1.0)),u.x),u.y);',
+            '}',
+            'float fbm(vec2 p){',
+            '  float v=0.0, a=0.5;',
+            '  for(int i=0;i<5;i++){ v+=a*noise(p); p*=2.02; a*=0.5; }',
+            '  return v;',
+            '}',
+            'void main(){',
+            '  vec2 uv = gl_FragCoord.xy/u_res.xy;',
+            '  vec2 p = uv; p.x *= u_res.x/u_res.y;',
+            '  float t = u_time*0.05;',
+            '  vec2 q = vec2(fbm(p*1.6 + t), fbm(p*1.6 + vec2(3.2,1.7) - t));',
+            '  float f = fbm(p*2.2 + q*1.4 + t*0.5);',
+            '  float band = sin((p.x*1.4 - p.y*1.1)*3.0 + f*4.5 + t*2.0);',
+            '  band = smoothstep(-0.15, 0.85, band);',
+            '  vec3 cA = vec3(0.043,0.055,0.086);',
+            '  vec3 cB = vec3(0.110,0.300,0.850);',
+            '  vec3 cC = vec3(0.420,0.280,0.850);',
+            '  vec3 cD = vec3(0.130,0.720,0.850);',
+            '  vec3 col = mix(cA, cB, smoothstep(0.15,0.95,f));',
+            '  col = mix(col, cC, band*0.55*smoothstep(0.2,1.0,f));',
+            '  col += cD * pow(band,3.0)*0.18;',
+            '  float vig = smoothstep(1.25, 0.25, length(uv-0.5)*1.5);',
+            '  col *= vig;',
+            '  col = mix(col, vec3(1.0)-col*0.55, u_light);',
+            '  gl_FragColor = vec4(col, 1.0);',
+            '}'
+        ].join('\n');
+
+        function compile(type, src) {
+            var s = gl.createShader(type);
+            gl.shaderSource(s, src);
+            gl.compileShader(s);
+            if (!gl.getShaderParameter(s, gl.COMPILE_STATUS)) {
+                console.warn('shader:', gl.getShaderInfoLog(s));
+                return null;
+            }
+            return s;
+        }
+
+        var vs = compile(gl.VERTEX_SHADER, VERT);
+        var fs = compile(gl.FRAGMENT_SHADER, FRAG);
+        if (!vs || !fs) { canvas.style.display = 'none'; return; }
+
+        var prog = gl.createProgram();
+        gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+        if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) { canvas.style.display = 'none'; return; }
+        gl.useProgram(prog);
+
+        var buf = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+        var loc = gl.getAttribLocation(prog, 'a');
+        gl.enableVertexAttribArray(loc);
+        gl.vertexAttribPointer(loc, 2, gl.FLOAT, false, 0, 0);
+
+        var uRes = gl.getUniformLocation(prog, 'u_res');
+        var uTime = gl.getUniformLocation(prog, 'u_time');
+        var uLight = gl.getUniformLocation(prog, 'u_light');
+
+        function size() {
+            var dpr = Math.min(devicePixelRatio || 1, 1.5);
+            canvas.width = Math.floor(canvas.clientWidth * dpr);
+            canvas.height = Math.floor(canvas.clientHeight * dpr);
+            gl.viewport(0, 0, canvas.width, canvas.height);
+            gl.uniform2f(uRes, canvas.width, canvas.height);
+        }
+        size();
+        addEventListener('resize', size);
+
+        // Only burn GPU while the hero is actually on screen.
+        var visible = true;
+        new IntersectionObserver(function (e) { visible = e[0].isIntersecting; })
+            .observe(canvas.parentElement);
+
+        var start = performance.now();
+        (function draw(now) {
+            requestAnimationFrame(draw);
+            if (!visible) return;
+            gl.uniform1f(uTime, (now - start) / 1000);
+            gl.uniform1f(uLight, root.classList.contains('light') ? 1.0 : 0.0);
+            gl.drawArrays(gl.TRIANGLES, 0, 3);
+        })(start);
+
+        root.classList.add('has-gl');
+    })();
+
+    /* ================= language ================= */
+    var TITLES = {
+        en: 'Nathan Chao | Freelance web development',
+        zh: 'Nathan Chao | 自由接案 · 網頁開發'
+    };
+    var CJK_HREF = 'https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;600;700;800&display=swap';
+    var cjkLoaded = false;
+
+    function loadCjk() {
+        if (cjkLoaded) return;
+        cjkLoaded = true;
+        var l = document.createElement('link');
+        l.rel = 'stylesheet'; l.href = CJK_HREF;
+        document.head.appendChild(l);
+    }
+
+    function setLang(lang) {
+        var isZh = lang === 'zh';
+        if (isZh) loadCjk();
         root.classList.toggle('zh', isZh);
         root.lang = isZh ? 'zh-Hant' : 'en';
         document.title = isZh ? TITLES.zh : TITLES.en;
 
-        document.querySelectorAll('.lang-opt').forEach(function (btn) {
-            btn.setAttribute('aria-pressed', String(btn.dataset.lang === lang));
+        document.querySelectorAll('.nav-tools .seg-opt').forEach(function (b) {
+            b.setAttribute('aria-pressed', String(b.dataset.lang === lang));
         });
-
         document.querySelectorAll('[data-en][data-zh]').forEach(function (el) {
             el.placeholder = isZh ? el.dataset.zh : el.dataset.en;
         });
 
         try { localStorage.setItem('lang', lang); } catch (e) { /* private mode */ }
-
         var d = document.getElementById('demo');
         if (d) d.dispatchEvent(new Event('langchange'));
-
-        if (animate) {
-            root.classList.remove('retype');
-            void root.offsetWidth;            // restart the animation
-            root.classList.add('retype');
-        }
     }
 
-    // The pre-paint script in <head> already set the class; sync the rest.
-    setLang(root.classList.contains('zh') ? 'zh' : 'en', false);
-
-    document.querySelectorAll('.lang-opt').forEach(function (btn) {
-        btn.addEventListener('click', function () {
-            if (btn.getAttribute('aria-pressed') === 'true') return;
-            setLang(btn.dataset.lang, true);
-        });
+    setLang(root.classList.contains('zh') ? 'zh' : 'en');
+    document.querySelectorAll('.nav-tools .seg-opt').forEach(function (b) {
+        b.addEventListener('click', function () { setLang(b.dataset.lang); });
     });
 
-    /* ---------- theme ---------- */
+    /* ================= theme ================= */
     var themeBtn = document.getElementById('theme-btn');
-    var themeColor = document.querySelector('meta[name="theme-color"]');
-
+    var themeMeta = document.querySelector('meta[name="theme-color"]');
     themeBtn.addEventListener('click', function () {
-        themeBtn.classList.remove('spin');
-        void themeBtn.offsetWidth;
-        themeBtn.classList.add('spin');
-
-        var isDark = root.classList.toggle('dark');
-        try { localStorage.setItem('theme', isDark ? 'dark' : 'light'); } catch (e) { /* private mode */ }
-        themeColor.setAttribute('content', isDark ? '#14120e' : '#f2efe7');
+        themeBtn.classList.remove('spin'); void themeBtn.offsetWidth; themeBtn.classList.add('spin');
+        var light = root.classList.toggle('light');
+        try { localStorage.setItem('theme', light ? 'light' : 'dark'); } catch (e) { /* private mode */ }
+        themeMeta.setAttribute('content', light ? '#f6f7fb' : '#05060b');
     });
 
-    /* ---------- masthead hairline on scroll ---------- */
-    var masthead = document.getElementById('masthead');
-    var onScroll = function () { masthead.classList.toggle('stuck', window.scrollY > 24); };
-    window.addEventListener('scroll', onScroll, { passive: true });
+    /* ================= nav ================= */
+    var nav = document.getElementById('nav');
+    var onScroll = function () { nav.classList.toggle('stuck', scrollY > 20); };
+    addEventListener('scroll', onScroll, { passive: true });
     onScroll();
 
-    /* ---------- mobile menu ---------- */
-    var menuBtn = document.querySelector('.menu-btn');
-    var nav = document.querySelector('.nav');
-
-    menuBtn.addEventListener('click', function () {
-        var open = nav.classList.toggle('open');
-        menuBtn.setAttribute('aria-expanded', String(open));
+    var burger = document.querySelector('.burger');
+    var links = document.querySelector('.nav-links');
+    burger.addEventListener('click', function () {
+        var open = links.classList.toggle('open');
+        burger.setAttribute('aria-expanded', String(open));
     });
-    nav.addEventListener('click', function (e) {
-        if (e.target.closest('a')) {
-            nav.classList.remove('open');
-            menuBtn.setAttribute('aria-expanded', 'false');
-        }
+    links.addEventListener('click', function (e) {
+        if (e.target.closest('a')) { links.classList.remove('open'); burger.setAttribute('aria-expanded', 'false'); }
     });
 
-    /* ---------- live project embeds ----------------------------------
-       Each case study can pull the real deployed site into the page. The
-       iframe is built on first click, never on load — four embedded sites
-       booting up behind a closed drawer would cost more than the page. */
-    document.querySelectorAll('.case').forEach(function (details) {
-        var btn = details.querySelector('.embed-btn');
-        var slot = details.querySelector('.embed-slot');
-        if (!btn || !slot) return;
+    /* ================= metric counters ================= */
+    document.querySelectorAll('.metric-num').forEach(function (el) {
+        var target = parseInt(el.dataset.count, 10);
+        var suffix = el.dataset.suffix || '';
+        new IntersectionObserver(function (entries, obs) {
+            if (!entries[0].isIntersecting) return;
+            obs.disconnect();
+            if (reduced) { el.textContent = target + suffix; return; }
+            var t0 = performance.now(), dur = 1100;
+            (function step(now) {
+                var k = Math.min((now - t0) / dur, 1);
+                el.textContent = Math.round(target * (1 - Math.pow(1 - k, 3))) + suffix;
+                if (k < 1) requestAnimationFrame(step);
+            })(t0);
+        }, { threshold: 0.6 }).observe(el);
+    });
 
-        btn.addEventListener('click', function () {
-            if (slot.firstChild) {                 // already loaded: toggle it away
-                slot.textContent = '';
-                setLabel(btn, 'Load it in this page', '直接載進這一頁');
-                return;
-            }
-            var frame = document.createElement('iframe');
-            frame.className = 'embed-frame';
-            frame.src = details.dataset.embed;
-            frame.title = details.querySelector('.case-title').textContent.trim();
-            slot.appendChild(frame);
+    /* ================= process rail ================= */
+    var dots = [].slice.call(document.querySelectorAll('.flow-dot'));
+    var stages = [].slice.call(document.querySelectorAll('.stage'));
 
-            var cap = document.createElement('p');
-            cap.className = 'embed-caption';
-            cap.textContent = details.dataset.embed;
-            slot.appendChild(cap);
-
-            setLabel(btn, 'Hide it again', '收起來');
-            frame.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (dots.length && stages.length) {
+        dots.forEach(function (d) {
+            d.addEventListener('click', function () {
+                var s = document.getElementById('stage-' + d.dataset.go);
+                if (s) goTo(s);
+            });
         });
-    });
 
-    function setLabel(btn, en, zh) {
-        btn.querySelector('[lang="en"]').textContent = en;
-        btn.querySelector('[lang="zh"]').textContent = zh;
+        var mark = function (n) {
+            dots.forEach(function (d) { d.classList.toggle('active', d.dataset.go === String(n)); });
+        };
+        mark(1);
+
+        var io = new IntersectionObserver(function (entries) {
+            entries.forEach(function (e) { if (e.isIntersecting) mark(e.target.dataset.stage); });
+        }, { rootMargin: '-35% 0px -55% 0px' });
+        stages.forEach(function (s) { io.observe(s); });
     }
 
-    /* ---------- boop ---------------------------------------------------
-       A spring nudge on hover, lifted from joshwcomeau.com. Add .boop for
-       one beat and let the overshoot in the CSS easing do the work. It is
-       decoration, so it only ever touches aria-hidden elements, and the
-       reduced-motion media query neutralises it. */
-    var BOOP_MS = 420;
-
+    /* ================= boop ================= */
     document.querySelectorAll('[data-boop]').forEach(function (el) {
         var timer;
         var boop = function () {
             clearTimeout(timer);
             el.classList.add('boop');
-            timer = setTimeout(function () { el.classList.remove('boop'); }, BOOP_MS);
+            timer = setTimeout(function () { el.classList.remove('boop'); }, 420);
         };
         el.addEventListener('mouseenter', boop);
-        // A parent row is a much bigger hover target than a 30px icon.
-        var row = el.closest('.approach, .case-summary, .step');
+        var row = el.closest('.cap');
         if (row) row.addEventListener('mouseenter', boop);
     });
 
-    /* ---------- headline swap ------------------------------------------
-       Hover carries it on a mouse; touch has no hover, so a tap toggles
-       the same state. Ornamental, so the swapped-in word is aria-hidden
-       and the headline still reads as one sentence to a screen reader. */
-    document.querySelectorAll('.swap').forEach(function (el) {
-        el.addEventListener('click', function () { el.classList.toggle('on'); });
-    });
-
-    /* ---------- typesetting demo ---------------------------------------
-       Sets the same two paragraphs with one shared set of metrics, then
-       with metrics tuned per script. The English pane is identical in both
-       modes — which is the whole point: if you only read English, nothing
-       looks wrong. */
+    /* ================= typesetting demo ================= */
     var demo = document.getElementById('demo');
-
     if (demo) {
         var verdict = demo.querySelector('.demo-verdict');
         var thumb = demo.querySelector('.demo-thumb');
@@ -179,89 +286,62 @@
 
         var VERDICT = {
             same: {
-                en: 'The English is fine. The Chinese is cramped — CJK characters are full-width ' +
-                    'squares and need far more room between lines, and the negative letter-spacing ' +
-                    'that tightens Latin text is actively squeezing them together.',
-                zh: '英文沒問題，中文卻擠成一團。中文字是全形方塊字，行距需要放得比英文寬得多；' +
-                    '而那個為了收緊英文而設的負字距，正把中文字硬擠在一起。'
+                en: 'The English is fine. The Chinese is cramped — CJK characters are full-width squares ' +
+                    'that need far more room between lines, and the negative letter-spacing that tightens ' +
+                    'Latin text is squeezing them together.',
+                zh: '英文沒問題，中文卻擠成一團。中文字是全形方塊字，行距需要放得比英文寬得多；而那個為了收緊英文而設的負字距，正把中文字硬擠在一起。'
             },
             tuned: {
-                en: 'Same paragraph, same page, different metrics: looser leading and positive ' +
-                    'tracking for the Chinese. Nothing about the English changed — which is exactly ' +
-                    'why this gets missed.',
-                zh: '同一段文字、同一頁，只是換了一組排版數值：中文放寬行距、字距轉正。英文完全沒動 ——' +
-                    '這正是這個問題常常被忽略的原因。'
+                en: 'Same paragraph, same page, different metrics: looser leading and positive tracking for ' +
+                    'the Chinese. Nothing about the English changed — which is exactly why this gets missed.',
+                zh: '同一段文字、同一頁，只是換了一組排版數值：中文放寬行距、字距轉正。英文完全沒動 —— 這正是這個問題常常被忽略的原因。'
             }
         };
 
         var setMode = function (mode) {
             demo.classList.toggle('tuned', mode === 'tuned');
-
-            opts.forEach(function (btn, i) {
-                var on = btn.dataset.mode === mode;
-                btn.setAttribute('aria-pressed', String(on));
+            opts.forEach(function (b) {
+                var on = b.dataset.mode === mode;
+                b.setAttribute('aria-pressed', String(on));
                 if (on && thumb) {
-                    thumb.style.width = btn.offsetWidth + 'px';
-                    thumb.style.transform = 'translateX(' + (btn.offsetLeft - 3) + 'px)';
+                    thumb.style.width = b.offsetWidth + 'px';
+                    thumb.style.transform = 'translateX(' + (b.offsetLeft - 3) + 'px)';
                 }
             });
-
             demo.querySelectorAll('.demo-pane').forEach(function (pane) {
-                // Read the custom properties, not the resolved line-height:
-                // those are mid-transition at this point and would report the
-                // value being animated away from. Custom properties flip at once.
+                // Read the custom properties, not the resolved line-height: those
+                // are mid-transition here and report the value being animated away.
                 var cs = getComputedStyle(pane.querySelector('.demo-text'));
                 pane.querySelector('.demo-stats').textContent =
                     'line-height ' + cs.getPropertyValue('--demo-leading').trim() +
                     '   ·   letter-spacing ' + cs.getPropertyValue('--demo-track').trim();
             });
-
             verdict.textContent = VERDICT[mode][root.classList.contains('zh') ? 'zh' : 'en'];
         };
 
-        opts.forEach(function (btn) {
-            btn.addEventListener('click', function () { setMode(btn.dataset.mode); });
-        });
+        opts.forEach(function (b) { b.addEventListener('click', function () { setMode(b.dataset.mode); }); });
 
-        // The demo shows Chinese type whatever language the page is in, so it
-        // needs the CJK faces even for an English-reading visitor — but only
-        // once they have actually scrolled to it.
-        new IntersectionObserver(function (entries, obs) {
-            if (!entries[0].isIntersecting) return;
-            loadCjkFonts();
-            obs.disconnect();
+        // The demo shows Chinese type whatever language the page is in.
+        new IntersectionObserver(function (e, obs) {
+            if (!e[0].isIntersecting) return;
+            loadCjk(); obs.disconnect();
             setTimeout(function () { setMode(demo.classList.contains('tuned') ? 'tuned' : 'same'); }, 150);
-        }, { rootMargin: '200px' }).observe(demo);
+        }, { rootMargin: '250px' }).observe(demo);
 
         setMode('same');
-        window.addEventListener('resize', function () {
-            setMode(demo.classList.contains('tuned') ? 'tuned' : 'same');
-        });
-        demo.addEventListener('langchange', function () {
-            setMode(demo.classList.contains('tuned') ? 'tuned' : 'same');
-        });
+        addEventListener('resize', function () { setMode(demo.classList.contains('tuned') ? 'tuned' : 'same'); });
+        demo.addEventListener('langchange', function () { setMode(demo.classList.contains('tuned') ? 'tuned' : 'same'); });
     }
 
-    /* ---------- reveal on scroll ---------- */
-    var io = new IntersectionObserver(function (entries) {
-        entries.forEach(function (entry) {
-            if (!entry.isIntersecting) return;
-            entry.target.classList.add('seen');
-            io.unobserve(entry.target);
-        });
-    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
-
-    document.querySelectorAll('.reveal').forEach(function (el) { io.observe(el); });
-
-    /* ---------- contact form ---------- */
+    /* ================= contact form ================= */
     var form = document.getElementById('contact-form');
     var status = document.getElementById('contact-status');
     var submitBtn = document.getElementById('contact-submit');
     var btnText = submitBtn.querySelector('.btn-text');
     var SEND = { en: 'Send message', zh: '送出訊息' };
 
-    /* Formal register for system messages — deliberate, and different from
-       the conversational register used in the marketing copy above. */
+    /* Formal register for system messages — deliberately different from the
+       conversational register of the marketing copy. */
     var MSG = {
         en: {
             sending: 'Sending…',
@@ -275,27 +355,30 @@
         }
     };
 
+    function label(en, zh) {
+        btnText.querySelector('[lang="en"]').textContent = en;
+        btnText.querySelector('[lang="zh"]').textContent = zh;
+    }
+
     form.addEventListener('submit', async function (event) {
         event.preventDefault();
         var lang = root.classList.contains('zh') ? 'zh' : 'en';
-
-        status.className = 'contact-status';
-        setLabel(btnText, MSG.en.sending, MSG.zh.sending);
+        status.className = 'form-status';
+        label(MSG.en.sending, MSG.zh.sending);
         submitBtn.disabled = true;
 
         try {
-            var response = await fetch(form.action, {
+            var res = await fetch(form.action, {
                 method: form.method,
                 body: new FormData(form),
                 headers: { Accept: 'application/json' }
             });
-
-            if (response.ok) {
+            if (res.ok) {
                 status.textContent = MSG[lang].success;
                 status.classList.add('success', 'shown');
                 form.reset();
             } else {
-                var data = await response.json().catch(function () { return {}; });
+                var data = await res.json().catch(function () { return {}; });
                 status.textContent = Array.isArray(data.errors)
                     ? data.errors.map(function (e) { return e.message; }).join(', ')
                     : MSG[lang].error;
@@ -306,7 +389,7 @@
             status.classList.add('error', 'shown');
         } finally {
             submitBtn.disabled = false;
-            setLabel(btnText, SEND.en, SEND.zh);
+            label(SEND.en, SEND.zh);
         }
     });
 })();
