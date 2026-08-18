@@ -310,7 +310,11 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 
 /* ---------- work ---------- */
 .work { padding-block: var(--pad); }
-.cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.25rem; }
+/* Three columns, not two. There are four cards and the lead one spans the
+   full width, which leaves three — in a 2-col grid the last was stranded
+   alone on its own row at every width above the breakpoint. Three columns
+   means row two fills exactly, whatever the viewport. */
+.cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; }
 .card {
     background: var(--surface); border: 1px solid var(--line); border-radius: 16px; overflow: hidden;
     display: flex; flex-direction: column;
@@ -434,6 +438,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
     .flow-inner { grid-template-columns: 1fr; }
     .flow-rail { position: static; }
     .flow-nav { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    /* straight to one column: two would strand the third card again */
     .cards { grid-template-columns: 1fr; }
     .card-wide { flex-direction: column; }
 }
