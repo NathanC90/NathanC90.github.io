@@ -28,6 +28,11 @@ Both languages are written, not machine-translated.
 - The typesetting demo reads `--demo-leading` / `--demo-track` to print its stats, NOT
   the resolved `line-height`. Those properties are transitioned, so a computed read
   during a mode change reports the value being animated away from, not the new one.
+- The headline's alternate word is generated content (`::after` + `data-alt`), not
+  markup, and is positioned out of flow. As a real element it landed inside the `<h1>`,
+  so copy, find-in-page and crawlers all saw "I build bilingual中英雙語 websites"; and
+  sharing a layout box with the visible word sized that box by the *wider* of the two,
+  leaving a gap around the shorter one.
 - Inside a `:root.zh` rule, `var(--font-display)` resolves to the *CJK* face. To set
   something in Fraunces there, name the family explicitly — the headline swap needs
   this, and it silently renders English in Noto Serif TC otherwise.

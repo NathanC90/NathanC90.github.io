@@ -764,34 +764,77 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
 
 /* ============================================================
    Headline swap — poke the emphasised word and it says itself in
-   the other language. Stacked in a single grid cell so the box is
-   sized by the wider of the two and the rest of the headline never
-   reflows.
+   the other language.
+
+   The alternate word is a ::after fed from data-alt, NOT a second
+   element. As real markup it ended up inside the <h1>, so copying the
+   headline produced "I build bilingual中英雙語 websites", find-in-page
+   could not match the sentence, and crawlers read the h1 — the single
+   most load-bearing string on the page — as that same doubled text.
+   Generated content is invisible to all three.
+
+   Both words share one grid cell so nothing reflows.
    ============================================================ */
-/* The two words are deliberately near-identical in width (bilingual 242px
-   vs 中英雙語 251px at the display size) so the box the grid reserves does
-   not leave a visible hole behind the shorter one. */
+/* The alternate is taken out of flow, so the box is sized by whichever word
+   is actually resting in it. Sharing one grid cell instead meant the box was
+   always sized by the WIDER of the two, which left a hole around the shorter
+   one — visible in the Chinese headline, where 中英雙語 is 221px but the
+   English alternate is 234px. Rest is the state that matters: it is what
+   every visitor sees and what every screenshot catches. */
 .swap {
-    display: inline-grid;
-    justify-items: start;
+    position: relative;
+    display: inline-block;
     cursor: pointer;
-    vertical-align: baseline;
 }
 .swap > span {
-    grid-area: 1 / 1;
+    display: inline-block;
     transition: opacity 0.28s var(--ease), transform 0.28s var(--ease);
 }
-.swap .swap-b { opacity: 0; transform: translateY(0.22em) rotate(2deg); }
+.swap::after {
+    content: attr(data-alt);
+    position: absolute;
+    left: 50%;
+    top: 0;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateX(-50%) translateY(0.22em) rotate(2deg);
+    transition: opacity 0.28s var(--ease), transform 0.28s var(--ease);
+}
 
-.swap:hover .swap-a,
-.swap.on .swap-a { opacity: 0; transform: translateY(-0.22em) rotate(-2deg); }
-.swap:hover .swap-b,
-.swap.on .swap-b { opacity: 1; transform: none; }
+.swap:hover > span,
+.swap.on > span { opacity: 0; transform: translateY(-0.22em) rotate(-2deg); }
+.swap:hover::after,
+.swap.on::after { opacity: 1; transform: translateX(-50%); }
 
-/* The Chinese half marks emphasis with a rule instead of italics, so the
-   rule has to sit on the swap box rather than on the em. */
+/* --- English headline, Chinese alternate --- */
+:root:not(.zh) .swap::after {
+    font-style: normal;                     /* CJK has no italic; a browser
+                                               will shear the glyphs to fake
+                                               one if you let it */
+    font-family: 'Noto Serif TC', 'Songti TC', 'PingFang TC', serif;
+    /* Mixed-script convention: CJK set a few percent down from Latin at the
+       same nominal size, since full-width glyphs read optically larger. It
+       also brings 中英雙語 (254px) under "bilingual" (240px), so the shared
+       grid cell is sized by the English word and there is no dead space
+       sitting after it at rest. */
+    font-size: 0.93em;
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 0.06em;
+}
+
+/* --- Chinese headline, English alternate --- */
 :root.zh .display em.swap { border-bottom: 0; }
-:root.zh .swap .swap-a { border-bottom: 3px solid var(--accent); padding-bottom: 0.06em; }
+:root.zh .swap > span { border-bottom: 3px solid var(--accent); padding-bottom: 0.06em; }
+:root.zh .swap::after {
+    font-style: italic;
+    /* 234px of Fraunces over a 221px Chinese word would hang past it on both
+       sides, and the Chinese headline has no word spaces to absorb that. */
+    font-size: 0.94em;
+    /* NOT var(--font-display) — under :root.zh that token IS the CJK face,
+       which would set this English word in Noto Serif TC. */
+    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
+    border-bottom: 0;
+}
 
 /* Theme toggle earns a full turn. */
 .icon-btn svg { transition: transform 0.5s var(--ease); }
@@ -805,24 +848,3 @@ svg { fill: none; stroke: currentColor; stroke-width: 1.6; stroke-linecap: round
     #theme-btn.spin svg { transform: none; }
 }
 
-/* CJK has no italic form. Left alone, the browser synthesises one by
-   shearing the glyphs — which is precisely the sloppiness this page
-   spends a whole section arguing against. Chinese in the headline gets
-   the rule-underneath treatment the Chinese page uses instead. */
-.swap-b[lang="zh-Hant"] {
-    font-style: normal;
-    font-family: 'Noto Serif TC', 'Songti TC', 'PingFang TC', serif;
-}
-:root:not(.zh) .swap-b[lang="zh-Hant"] {
-    border-bottom: 3px solid var(--accent);
-    padding-bottom: 0.06em;
-}
-/* ...and the reverse: English swapped into the Chinese headline should
-   take the italic, not the rule. */
-:root.zh .swap-b[lang="en-GB"] {
-    font-style: italic;
-    /* NOT var(--font-display) — under :root.zh that token IS the CJK face,
-       which would set this English word in Noto Serif TC. */
-    font-family: 'Fraunces', Georgia, 'Times New Roman', serif;
-    border-bottom: 0;
-}
