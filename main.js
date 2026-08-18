@@ -357,12 +357,12 @@
     var MSG = {
         en: {
             sending: 'Sending…',
-            success: 'Thank you. Your message has been sent — I will reply within two working days.',
+            success: 'Thank you. Your message has been sent — I usually reply within two working days.',
             error: 'Your message could not be sent. Please email ymnchao@gmail.com directly.'
         },
         zh: {
             sending: '傳送中……',
-            success: '已收到您的來信，將於兩個工作天內回覆。',
+            success: '已收到您的來信，通常會在兩個工作天內回覆。',
             error: '訊息傳送失敗，請直接來信 ymnchao@gmail.com。'
         }
     };
