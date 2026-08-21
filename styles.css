@@ -68,7 +68,13 @@
    document scrolling at all. Nothing on this page overflows horizontally —
    the hero canvas is contained by .hero's own overflow — so the safe answer
    is to set neither and fix any offender at the source. */
-html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+html { -webkit-text-size-adjust: 100%; }
+/* Only when Lenis is NOT driving. Lenis writes the scroll position every
+   frame while CSS smooth scrolling animates the same value toward its own
+   target — two systems fighting over one number, which is exactly what
+   scrolling "wrong" feels like. Lenis puts .lenis on <html>, so this keeps
+   smooth anchors for reduced-motion and no-JS without the conflict. */
+:root:not(.lenis) { scroll-behavior: smooth; }
 
 body {
     margin: 0;
@@ -326,7 +332,10 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .card-wide .card-body { flex: 1 1 48%; }
 .card-shot { overflow: hidden; background: var(--surface-2); }
 .card-shot img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s var(--ease); }
-.card:hover .card-shot img { transform: scale(1.05); }
+/* No hover transform on the image: it loses to the scroll-driven parallax
+   (animations beat plain declarations), and pausing that animation to let it
+   through made the image snap to the live scroll position on unhover. The
+   card lift and border already answer the pointer. */
 .card-body { padding: clamp(1.35rem, 2.5vw, 2rem); display: flex; flex-direction: column; gap: 0.7rem; }
 .card-tags { font-family: var(--mono); font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); }
 :root.zh .card-tags { font-family: var(--font); letter-spacing: 0.05em; }
@@ -467,7 +476,11 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
     .sec-head, .stage, .cap, .card, .metric, .demo {
         animation: rise linear both;
         animation-timeline: view();
-        animation-range: entry 5% entry 62%;
+        /* A fixed length, not a percentage. Percentages of `entry` are
+           relative to element height + viewport height, so the same fade
+           finished after 552px on a metric and 743px on the demo — a 35%
+           spread that reads as inconsistent, sluggish timing. */
+        animation-range: entry 0% entry 260px;
     }
     @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
 
@@ -476,8 +489,8 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
         animation-timeline: view();
         animation-range: cover;
     }
-    @keyframes drift { from { transform: translateY(-3%) scale(1.1); } to { transform: translateY(3%) scale(1.1); } }
-    .card:hover .card-shot img { animation-play-state: paused; }
+    @keyframes drift { from { transform: translateY(-2.5%) scale(1.06); } to { transform: translateY(2.5%) scale(1.06); } }
+
 }
 
 /* ---------- responsive ---------- */

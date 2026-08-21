@@ -11,7 +11,12 @@
     /* ================= smooth scroll ================= */
     var lenis = null;
     if (window.Lenis && !reduced) {
-        lenis = new window.Lenis({ duration: 1.05, smoothWheel: true });
+        /* lerp, not duration. Duration mode restarts a ~1s eased animation on
+           every wheel event; a trackpad fires dozens, so each one interrupts
+           the last and the page feels rubbery and detached from the hand.
+           lerp is continuous and frame-rate independent — it chases the real
+           scroll position instead of re-animating toward it. */
+        lenis = new window.Lenis({ lerp: 0.1, smoothWheel: true });
         (function raf(t) { lenis.raf(t); requestAnimationFrame(raf); })(0);
 
         /* Lenis owns the scroll position: it writes its own value back every
@@ -35,7 +40,8 @@
     }
 
     function goTo(target) {
-        if (lenis) lenis.scrollTo(target, { offset: -80 });
+        // Anchor jumps DO want a fixed duration — lerp would crawl across a long page.
+        if (lenis) lenis.scrollTo(target, { offset: -80, duration: 0.9 });
         else target.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth' });
     }
 
