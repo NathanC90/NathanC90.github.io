@@ -54,6 +54,47 @@
         });
     });
 
+    /* ================= loading screen =================
+       Dismissed on whichever comes first: the page finishing loading, or a
+       hard 2.2s cap. A loading screen that outlives the load is just a
+       closed door, and this one sits in front of someone deciding whether
+       to hire you. A short floor stops it flash-blinking on a warm cache. */
+    (function preloader() {
+        if (!root.classList.contains('preloading')) return;
+
+        var pre = document.getElementById('preloader');
+        var bar = pre && pre.querySelector('.pre-track i');
+        if (!pre) { root.classList.remove('preloading'); return; }
+
+        var FLOOR = 550, CEILING = 2200;
+        var t0 = performance.now();
+        var finished = false;
+
+        if (lenis) lenis.stop();
+        if (bar) requestAnimationFrame(function () { bar.style.transform = 'scaleX(0.65)'; });
+
+        function finish() {
+            if (finished) return;
+            finished = true;
+            if (bar) bar.style.transform = 'scaleX(1)';
+            try { sessionStorage.setItem('nc-seen', '1'); } catch (e) { /* private mode */ }
+
+            root.classList.add('loaded');
+            if (lenis) lenis.start();
+            // Drop the gate entirely once the cover has lifted.
+            setTimeout(function () { root.classList.remove('preloading', 'loaded'); }, 900);
+        }
+
+        function settle() {
+            setTimeout(finish, Math.max(0, FLOOR - (performance.now() - t0)));
+        }
+
+        if (document.readyState === 'complete') settle();
+        else addEventListener('load', settle);
+
+        setTimeout(finish, CEILING);
+    })();
+
     /* ================= hero shader =================
        A domain-warped fbm field cut by angular bands. Three.js would be
        ~600KB to draw one full-screen quad; this is the quad. */

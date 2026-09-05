@@ -77,6 +77,16 @@
     <script>
         (function () {
             document.documentElement.classList.add('js');
+            /* The loader is opt-in from here, so it can never strand a visitor:
+               with JS off this class is never set and the overlay stays hidden.
+               Shown once per session only — a returning visitor clicking back
+               should not sit through it again. */
+            try {
+                if (!sessionStorage.getItem('nc-seen') &&
+                    !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    document.documentElement.classList.add('preloading');
+                }
+            } catch (e) { /* private mode */ }
             if (localStorage.getItem('theme') === 'light') document.documentElement.classList.add('light');
             if (localStorage.getItem('lang') === 'zh') {
                 document.documentElement.classList.add('zh');
@@ -87,6 +97,14 @@
 </head>
 
 <body id="top">
+
+    <div class="preloader" id="preloader" aria-hidden="true">
+        <div class="pre-inner">
+            <span class="pre-mark"></span>
+            <span class="pre-name">Nathan Chao</span>
+            <span class="pre-track"><i></i></span>
+        </div>
+    </div>
 
     <div class="scroll-progress" aria-hidden="true"></div>
     <a href="#work" class="skip-link"><span lang="en">Skip to work</span><span lang="zh">跳至作品</span></a>
@@ -223,10 +241,11 @@
                             <span lang="zh">一通電話或幾封信，中英文都行。如果網站解決不了你的問題，我會直說。</span>
                         </p>
                         <div class="mock mock-chat" aria-hidden="true">
-                            <span class="mock-bar"><i></i><i></i><i></i></span>
-                            <span class="bubble b-in"></span>
-                            <span class="bubble b-out"></span>
-                            <span class="bubble b-in b-short"></span>
+                            <span class="mock-head"><i></i><i></i><i></i>
+                                <em><span lang="en">New enquiry</span><span lang="zh">新的來信</span></em></span>
+                            <span class="msg in"><span lang="en">We take bookings by phone and keep missing calls during treatment.</span><span lang="zh">我們都用電話接預約，看診中常常漏接。</span></span>
+                            <span class="msg out"><span lang="en">Roughly how many a week?</span><span lang="zh">大概一週漏接幾通？</span></span>
+                            <span class="msg in short"><span lang="en">Maybe fifteen.</span><span lang="zh">大概十五通。</span></span>
                             <span class="typing"><i></i><i></i><i></i></span>
                         </div>
                     </article>
@@ -240,11 +259,12 @@
                             <span lang="zh">一份清單，寫明包含什麼、多少錢。額外項目一律先談好。</span>
                         </p>
                         <div class="mock mock-doc" aria-hidden="true">
-                            <span class="mock-bar"><i></i><i></i><i></i></span>
-                            <span class="row"><b></b><u></u></span>
-                            <span class="row"><b></b><u></u></span>
-                            <span class="row"><b></b><u></u></span>
-                            <span class="row total"><b></b><u></u></span>
+                            <span class="mock-head"><i></i><i></i><i></i>
+                                <em><span lang="en">Scope &amp; quote</span><span lang="zh">工作範圍與報價</span></em></span>
+                            <span class="row"><b><span lang="en">Four-step booking flow</span><span lang="zh">四步驟線上預約流程</span></b><u class="tick"></u></span>
+                            <span class="row"><b><span lang="en">Clinic pages, bilingual</span><span lang="zh">診所頁面，中英雙語</span></b><u class="tick"></u></span>
+                            <span class="row"><b><span lang="en">Domain setup &amp; handover</span><span lang="zh">網域設定與交付</span></b><u class="tick"></u></span>
+                            <span class="row total"><b><span lang="en">Fixed price, agreed before work starts</span><span lang="zh">固定報價，動工前談定</span></b><u class="seal"></u></span>
                         </div>
                     </article>
 
@@ -257,11 +277,11 @@
                             <span lang="zh">第一天就給你線上連結。手機打開、轉傳給同仁，有問題趁早說。</span>
                         </p>
                         <div class="mock mock-build" aria-hidden="true">
-                            <span class="mock-bar"><i></i><i></i><i></i></span>
-                            <span class="blk blk-hero"></span>
-                            <span class="blk blk-a"></span>
-                            <span class="blk blk-b"></span>
-                            <span class="blk blk-c"></span>
+                            <span class="mock-head"><i></i><i></i><i></i>
+                                <em class="url">yourclinic.com.tw</em></span>
+                            <span class="wire nav"><b></b><u></u><u></u><u class="cta"></u></span>
+                            <span class="wire hero"><span lang="en">Book online in 30 seconds</span><span lang="zh">30 秒完成線上預約</span></span>
+                            <span class="wire cols"><u></u><u></u><u></u></span>
                             <span class="cursor"></span>
                         </div>
                     </article>
@@ -275,8 +295,16 @@
                             <span lang="zh">程式碼交給你，附白話說明教你改文字。打錯字不用等我。</span>
                         </p>
                         <div class="mock mock-launch" aria-hidden="true">
-                            <span class="phone"><span class="phone-screen"></span></span>
-                            <span class="serp"><i></i><u></u><u class="short"></u></span>
+                            <span class="phone"><span class="phone-screen">
+                                <span class="ok"></span>
+                                <b><span lang="en">Booked</span><span lang="zh">預約完成</span></b>
+                                <u><span lang="en">Tue 14:30</span><span lang="zh">週二 14:30</span></u>
+                            </span></span>
+                            <span class="serp">
+                                <span class="serp-url">yourclinic.com.tw</span>
+                                <span class="serp-title"><span lang="en">Book an appointment online</span><span lang="zh">線上預約看診</span></span>
+                                <span class="serp-desc"><span lang="en">Open 9:00–18:00 · Walk-ins welcome</span><span lang="zh">門診 9:00–18:00 · 歡迎現場候診</span></span>
+                            </span>
                         </div>
                     </article>
 
