@@ -274,6 +274,11 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .stage-copy { color: var(--text-2); margin-top: 0.9rem; max-width: 46ch; }
 
 /* --- stage mockups -------------------------------------------------
+   NAMESPACE EVERYTHING IN HERE. A mockup element called .nav, .hero or
+   .cta silently inherits the real page header, hero section and contact
+   band — .nav alone gave the wireframe `position: fixed; z-index: 80`,
+   which threw its gradient button across the viewport as a 44x289 bar.
+   Mock-only classes are prefixed (wire-, mk-) so they cannot collide. ---
    Built from divs, no image assets. They carry real content now: grey
    placeholder bars said nothing about what actually happens at each
    stage, which is the one thing this section exists to explain. --- */
@@ -321,7 +326,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .mock-doc .row { display: flex; align-items: center; gap: 0.9rem; padding-block: 0.45rem; border-bottom: 1px dashed var(--line); }
 .mock-doc .row b { flex: 1; font-weight: 400; color: var(--text-2); }
 .mock-doc .row u { flex: none; text-decoration: none; }
-.mock-doc u.tick {
+.mock-doc u.mk-tick {
     width: 13px; height: 7px; border-left: 2px solid var(--brand-3); border-bottom: 2px solid var(--brand-3);
     transform: rotate(-45deg); margin-right: 4px;
 }
@@ -333,10 +338,10 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
    "here is a website" (that is stage 04) but "you can see it early and say
    what is wrong", so the mockup shows the preview URL and the feedback. */
 .mock-build .wire { display: flex; align-items: center; gap: 0.5rem; border-radius: 8px; }
-.mock-build .nav b { width: 34px; height: 9px; border-radius: 5px; background: var(--text-3); }
-.mock-build .nav u { width: 26px; height: 7px; border-radius: 4px; background: var(--surface-2); }
-.mock-build .nav u.cta { width: 44px; height: 16px; border-radius: 999px; background: var(--grad); margin-left: auto; }
-.mock-build .hero {
+.mock-build .wire-nav b { width: 34px; height: 9px; border-radius: 5px; background: var(--text-3); }
+.mock-build .wire-nav u { width: 26px; height: 7px; border-radius: 4px; background: var(--surface-2); }
+.mock-build .wire-nav u.wire-cta { width: 44px; height: 16px; border-radius: 999px; background: var(--grad); margin-left: auto; }
+.mock-build .wire-hero {
     min-height: 3.4rem; padding: 0.8rem; background: var(--surface-2);
     color: var(--text); font-weight: 600; font-size: 0.92rem; line-height: 1.3;
 }
@@ -396,7 +401,7 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .hand-title { font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-3); }
 :root.zh .hand-title { letter-spacing: 0.04em; text-transform: none; }
 .hand-item { display: flex; align-items: flex-start; gap: 0.55rem; text-decoration: none; color: var(--text-2); font-size: 0.76rem; }
-.hand-item .tick {
+.hand-item .mk-tick {
     flex: none; margin-top: 0.35em; width: 11px; height: 6px;
     border-left: 2px solid var(--brand-3); border-bottom: 2px solid var(--brand-3);
     rotate: -45deg;
@@ -661,14 +666,14 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
 .stage.playing .mock-doc .row:not(.total) b { animation: mock-in-l 0.5s var(--ease) 0.20s both; }
 .stage.playing .mock-doc .row + .row:not(.total) b { animation-delay: 0.32s; }
 .stage.playing .mock-doc .row + .row + .row:not(.total) b { animation-delay: 0.44s; }
-.stage.playing .mock-doc .row u.tick { animation: mock-spring 0.4s cubic-bezier(0.16, 1.9, 0.4, 1) 0.34s both; }
-.stage.playing .mock-doc .row + .row u.tick { animation-delay: 0.46s; }
-.stage.playing .mock-doc .row + .row + .row u.tick { animation-delay: 0.58s; }
+.stage.playing .mock-doc .row u.mk-tick { animation: mock-spring 0.4s cubic-bezier(0.16, 1.9, 0.4, 1) 0.34s both; }
+.stage.playing .mock-doc .row + .row u.mk-tick { animation-delay: 0.46s; }
+.stage.playing .mock-doc .row + .row + .row u.mk-tick { animation-delay: 0.58s; }
 .stage.playing .mock-doc .row.total b { animation: mock-in-l 0.5s var(--ease) 0.66s both; }
 .stage.playing .mock-doc .total u.seal { animation: mock-spring 0.5s cubic-bezier(0.16, 1.9, 0.4, 1) 0.8s both; }
 
 /* 03 — the page assembles, booking button lands, then the client's comment */
-.stage.playing .mock-build .nav u.cta { animation: mock-spring 0.5s cubic-bezier(0.16, 1.9, 0.4, 1) 0.5s both; }
+.stage.playing .mock-build .wire-nav u.wire-cta { animation: mock-spring 0.5s cubic-bezier(0.16, 1.9, 0.4, 1) 0.5s both; }
 /* the feedback is the whole point of this stage, so it lands last */
 .stage.playing .mock-build .note  { animation: mock-in-r 0.5s cubic-bezier(0.16, 1.7, 0.4, 1) 0.72s both; }
 .stage.playing .mock-build .stamp { animation: mock-rise 0.4s var(--ease) 0.95s both; }

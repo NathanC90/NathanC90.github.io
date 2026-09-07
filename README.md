@@ -29,6 +29,11 @@ motion; all copy, artwork and colour here are original.
 - Lenis and the metric counters are `requestAnimationFrame`-driven, so neither runs while
   the tab is hidden. That is correct behaviour, not a bug — but it means they cannot be
   verified in a backgrounded preview pane.
+- **Namespace every class inside a stage mockup.** A mock element called `.nav`,
+  `.hero`, `.cta` or `.tick` silently inherits the real page header, hero section,
+  contact band or availability dot. `.nav` alone gave a wireframe
+  `position: fixed; z-index: 80` and threw its gradient button across the viewport as a
+  44x289 bar. Mock-only classes are prefixed `wire-` / `mk-`.
 - The CJK webfont loads **on demand**, on first switch to Chinese and when the
   typesetting demo scrolls near. Do not move it into `<head>`.
 - Language and theme are applied by a script in `<head>` before first paint, which is why
