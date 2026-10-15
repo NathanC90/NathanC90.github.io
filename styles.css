@@ -563,20 +563,17 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
     @keyframes prog { to { transform: scaleX(1); } }
 }
 
+/* Section reveal: played once on entry, not scrubbed — a scrubbed fade
+   freezes half-done whenever you stop scrolling. main.js adds .rv, then .in
+   with a staggered delay for blocks that enter together. Animates `translate`,
+   not `transform`, so the held end state leaves the card hover lift alone. */
+.rv { opacity: 0; translate: 0 32px; }
+.rv.in { animation: reveal 0.9s var(--ease) both; }
+@keyframes reveal { to { opacity: 1; translate: none; } }
+
 @supports (animation-timeline: view()) {
     /* NOT the hero: it is already on screen at load, so its view() timeline
        would start part-way through its range and never resolve. */
-    .sec-head, .stage, .cap, .card, .metric, .demo {
-        animation: rise linear both;
-        animation-timeline: view();
-        /* A fixed length, not a percentage. Percentages of `entry` are
-           relative to element height + viewport height, so the same fade
-           finished after 552px on a metric and 743px on the demo — a 35%
-           spread that reads as inconsistent, sluggish timing. */
-        animation-range: entry 0% entry 260px;
-    }
-    @keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
-
     .card-shot img {
         animation: drift linear both;
         animation-timeline: view();
@@ -625,7 +622,6 @@ ul, ol { list-style: none; margin: 0; padding: 0; }
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
     }
-    .sec-head, .stage, .cap, .card, .metric, .demo { opacity: 1 !important; transform: none !important; }
     .hero-canvas { display: none; }
 }
 

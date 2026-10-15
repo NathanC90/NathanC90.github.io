@@ -42,6 +42,8 @@ motion; all copy, artwork and colour here are original.
   and renders both languages at once. `selfcheck.js` enforces this.
 - The demo's stats read `--demo-leading` / `--demo-track`, not the resolved
   `line-height`: those are transitioned and report the value being animated away from.
+- Section reveals (`.rv` → `.in`, main.js) animate `translate`, not `transform`: an
+  animation's held end state beats `.card:hover`'s `transform` and kills the lift.
 - No scroll sweep on anything already on screen at load — a `view()` timeline starts
   part-way through its own range and never resolves.
 

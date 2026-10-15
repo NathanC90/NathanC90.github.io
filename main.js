@@ -288,6 +288,22 @@
         }, { threshold: 0.6 }).observe(el);
     });
 
+    /* ================= section reveal =================
+       Blocks that enter in the same frame stagger in document order. */
+    if (!reduced && 'IntersectionObserver' in window) {
+        var reveal = new IntersectionObserver(function (entries) {
+            var n = 0;
+            entries.forEach(function (e) {
+                if (!e.isIntersecting) return;
+                e.target.style.animationDelay = Math.min(n++, 5) * 0.09 + 's';
+                e.target.classList.add('in');
+                reveal.unobserve(e.target);
+            });
+        }, { rootMargin: '0px 0px -8% 0px' });
+        document.querySelectorAll('.sec-head > *, .stage, .cap, .card, .metric, .demo, .cta-copy > *, .form')
+            .forEach(function (el) { el.classList.add('rv'); reveal.observe(el); });
+    }
+
     /* ================= process rail ================= */
     var dots = [].slice.call(document.querySelectorAll('.flow-dot'));
     var stages = [].slice.call(document.querySelectorAll('.stage'));
